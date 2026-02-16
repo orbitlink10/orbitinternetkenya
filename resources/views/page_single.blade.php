@@ -5,7 +5,7 @@
 @endphp
 
 @section('title')
-    {{ $page->title }} | {{ get_option('site_name', 'Starlink Kenya Installers') }}
+    {{ $page->title }} | {{ get_option('site_name', 'Amazon LEO Internet Kenya') }}
 @endsection
 
 @section('meta_description', $pageMeta)

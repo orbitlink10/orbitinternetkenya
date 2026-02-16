@@ -30,7 +30,7 @@ class WelcomeUserMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome to Starlink Kenya')
+        return $this->subject('Welcome to Amazon LEO Internet Kenya')
                     ->view('emails.welcomeUser');
     }
 }

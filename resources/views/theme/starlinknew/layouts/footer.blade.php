@@ -59,7 +59,7 @@
           <button class="btn btn-primary">Contact Us</button>
         </form>
         <p class="mt-3 small text-muted">
-          Reach out for updates on Starlink Kenya offers, setups, and availability.
+          Reach out for updates on Amazon LEO Internet Kenya offers, setups, and availability.
         </p>
       </div>
 

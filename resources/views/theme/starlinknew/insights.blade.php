@@ -1,8 +1,8 @@
 @extends('theme.starlinknew.layouts.orbit_main')
 
 @php
-  $pageTitle = 'Starlink Kenya Insights | Guides, Pricing and Installation Tips';
-  $pageDescription = 'Explore Starlink Kenya guides on pricing, kits, installation, roaming, and connectivity tips for homes and businesses.';
+  $pageTitle = 'Amazon LEO Internet Kenya Insights | Guides, Pricing and Installation Tips';
+  $pageDescription = 'Explore Amazon LEO Internet Kenya guides on pricing, kits, installation, roaming, and connectivity tips for homes and businesses.';
 @endphp
 
 @section('title', $pageTitle)
@@ -19,7 +19,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Knowledge Hub</span>
-      <h1 class="fw-bold mb-3">Starlink Kenya Insights</h1>
+      <h1 class="fw-bold mb-3">Amazon LEO Internet Kenya Insights</h1>
       <p class="text-muted mx-auto" style="max-width:760px;">
         Practical guides on Starlink setup, kit pricing, subscriptions, and performance best practices in Kenya.
       </p>

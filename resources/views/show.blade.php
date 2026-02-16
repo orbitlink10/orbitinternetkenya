@@ -1,7 +1,7 @@
 @extends('theme.starlinknew.layouts.app')
 
-@section('title', $category->name.' Jobs | '.get_option('site_name', 'Starlink Kenya'))
-@section('meta_description', 'Latest roles in '.$category->name.' from '.get_option('site_name', 'Starlink Kenya'))
+@section('title', $category->name.' Jobs | '.get_option('site_name', 'Amazon LEO Internet Kenya'))
+@section('meta_description', 'Latest roles in '.$category->name.' from '.get_option('site_name', 'Amazon LEO Internet Kenya'))
 
 @section('content')
 <section class="container py-5">

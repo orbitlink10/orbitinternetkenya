@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 
 <head>
@@ -7,25 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         @section('title') 
-        {{ get_option('site_name', 'Starlink Kenya Installers') }} 
+        {{ get_option('site_name', 'Amazon LEO Internet Kenya') }} 
         @show
     </title>
 
-    <meta name="description" content="@yield('meta_description', 'Starlink Kenya Installers - Fast, Reliable Satellite Internet Installation Services in Kenya')">
+    <meta name="description" content="@yield('meta_description', 'Amazon LEO Internet Kenya - Fast, Reliable Satellite Internet Installation Services in Kenya')">
     <meta name="keywords" content="@yield('meta_keywords', 'Starlink, Kenya, Internet, Installation, Installers, Connectivity, Satellite')">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="@yield('og_title', 'Starlink Kenya Installers | Fast & Reliable Installation Services')" />
+    <meta property="og:title" content="@yield('og_title', 'Amazon LEO Internet Kenya | Fast & Reliable Installation Services')" />
     <meta property="og:description" content="@yield('og_description', 'Professional Starlink installation services across Kenya. Book your installation today.')" />
     <meta property="og:image" content="@yield('og_image', get_option('hero_image'))" />
     <meta property="og:url" content="@yield('og_url', url()->current())" />
-    <meta property="og:site_name" content="{{ get_option('site_name', 'Starlink Kenya Installers') }}" />
+    <meta property="og:site_name" content="{{ get_option('site_name', 'Amazon LEO Internet Kenya') }}" />
     <meta property="og:type" content="@yield('og_type', 'website')" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@yield('twitter_site', url('/'))" />
-    <meta name="twitter:title" content="@yield('twitter_title', get_option('site_name', 'Starlink Kenya Installers'))" />
+    <meta name="twitter:title" content="@yield('twitter_title', get_option('site_name', 'Amazon LEO Internet Kenya'))" />
     <meta name="twitter:description" content="@yield('twitter_description', 'Get Starlink installed by trusted experts in Kenya.')" />
     <meta name="twitter:image" content="@yield('twitter_image', get_option('hero_image'))" />
 
@@ -48,7 +48,7 @@
     {{-- Structured Data: LocalBusiness and WebSite --}}
     @php
         $siteUrl   = rtrim(config('app.url') ?: url('/'), '/');
-        $siteName  = get_option('site_name', 'Starlink Kenya Installers');
+        $siteName  = get_option('site_name', 'Amazon LEO Internet Kenya');
         $logo      = get_option('logo');
         $heroImage = get_option('hero_image') ?: $logo;
         $phone     = get_option('contact_phone');
@@ -436,7 +436,7 @@
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="{{url ('shop-product')}}">Plain Striola Shirts</a></h4>
-                                                <h3><span>1 Ã— </span>$800.00</h3>
+                                                <h3><span>1 × </span>$800.00</h3>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -448,7 +448,7 @@
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="{{url ('shop-product')}}">Macbook Pro 2022</a></h4>
-                                                <h3><span>1 Ã— </span>$3500.00</h3>
+                                                <h3><span>1 × </span>$3500.00</h3>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="fi-rs-cross-small"></i></a>

@@ -11,7 +11,7 @@
     if (!\Illuminate\Support\Str::startsWith((string) $articleImage, ['http://', 'https://', '//'])) {
         $articleImage = url((string) $articleImage);
     }
-    $publisherName = trim((string) get_option('site_name', 'Starlink Kenya Installers')) ?: 'Starlink Kenya Installers';
+    $publisherName = trim((string) get_option('site_name', 'Amazon LEO Internet Kenya')) ?: 'Amazon LEO Internet Kenya';
     $authorName = $publisherName . ' Editorial Team';
     $publishedAt = $post->created_at ?: $post->updated_at;
     $updatedAt = $post->updated_at ?: $publishedAt;

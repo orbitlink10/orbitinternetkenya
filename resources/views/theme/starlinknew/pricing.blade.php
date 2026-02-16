@@ -34,10 +34,10 @@
             </div>
         </div>
         
-        <!-- Starlink Kenya Monthly Subscription Cost Section -->
+        <!-- Amazon LEO Internet Kenya Monthly Subscription Cost Section -->
         <div class="row text-center mt-5 mb-5">
             <div class="col-md-12">
-                <h2 class="fs-2 fs-lg-4 text-uppercase text-light">Starlink Kenya Monthly Subscription Cost</h2>
+                <h2 class="fs-2 fs-lg-4 text-uppercase text-light">Amazon LEO Internet Kenya Monthly Subscription Cost</h2>
                 <p class="lead text-muted">Choose a subscription plan that suits your needs.</p>
             </div>
         </div>

@@ -1303,9 +1303,9 @@ public function confirmation(Request $request)
     public function newsSitemap()
     {
         $base = rtrim(request()->getSchemeAndHttpHost(), '/');
-        $publicationName = trim((string) get_option('site_name', 'Starlink Kenya Installers'));
+        $publicationName = trim((string) get_option('site_name', 'Amazon LEO Internet Kenya'));
         if ($publicationName === '') {
-            $publicationName = 'Starlink Kenya Installers';
+            $publicationName = 'Amazon LEO Internet Kenya';
         }
 
         $posts = Page::whereNotNull('slug')
