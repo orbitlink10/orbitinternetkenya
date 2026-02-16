@@ -53,7 +53,7 @@
         <span class="badge bg-primary bg-opacity-10 text-primary mb-3 rounded-pill px-3 py-2">
           Welcome to Amazon LEO Internet Kenya
         </span>
-        <h1 class="display-4 fw-bold text-dark mb-3">
+        <h1 class="display-4 fw-bolder text-dark mb-3 home-hero-title">
           {!! $heroTitle !!}
           @unless($heroTitleHasKenya)
             <span class="text-gradient">Kenya</span>
@@ -609,6 +609,10 @@
 </section>
 
 <style>
+    .home-hero-title {
+        font-weight: 900 !important;
+    }
+
     .description-frame {
         border-radius: 16px;
         border: 1px solid #eaeaea;
@@ -659,4 +663,3 @@
   </script>
 @endpush
 @endsection
-
