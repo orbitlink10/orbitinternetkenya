@@ -60,7 +60,7 @@
           <button class="btn btn-primary">Subscribe</button>
         </form>
         <p class="mt-3 small text-muted">
-          Stay updated with our latest Starlink Kenya offers and tips.
+          Stay updated with our latest Amazon LEO Internet Kenya offers and tips.
         </p>
       </div>
 

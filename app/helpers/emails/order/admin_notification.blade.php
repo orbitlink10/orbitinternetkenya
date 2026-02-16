@@ -4,7 +4,7 @@
     <title>New Order Notification</title>
 </head>
 <body>
-    <p>Dear Starlink Kenya Admin,</p>
+    <p>Dear Amazon LEO Internet Kenya Admin,</p>
 
     <p>I hope this message finds you well.</p>
 
@@ -25,7 +25,7 @@
     <p>Thank you for your attention to this new order.</p>
 
     <p>Best regards,<br>
-    Starlink Kenya Team<br>
+    Amazon LEO Internet Kenya Team<br>
     <br>
     +254 729 299 439</p>
 </body>

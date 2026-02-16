@@ -23,7 +23,7 @@
     <div class="container-lg">
         <div class="row flex-center">
             <div class="col-sm-10 col-md-8 text-center">
-                <h2 class="text-dark mb-4">Why Choose Starlink Kenya?</h2>
+                <h2 class="text-dark mb-4">Why Choose Amazon LEO Internet Kenya?</h2>
                 <p class="text-dark mb-4">We provide high-speed satellite internet solutions, offering reliable equipment, expert installation, and dedicated customer support, ensuring connectivity even in remote areas.</p>
                 <div class="carousel slide carousel-fade" id="carouselExampleFade" data-bs-ride="carousel">
                     <div class="carousel-inner">

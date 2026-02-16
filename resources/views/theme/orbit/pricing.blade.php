@@ -1,12 +1,12 @@
 @extends('theme.orbit.layouts.main')
-@section('title') Starlink Kenya Pricing @endsection
+@section('title') Amazon LEO Internet Kenya Pricing @endsection
 @section('main')
 <section class="py-6" id="starlink-pricing" style="margin-top: 50px;">
     <div class="container">
         <!-- Initial Installation Cost Section -->
         <div class="row text-center mb-5">
             <div class="col-md-12">
-                <h1 class="fs-2 fs-lg-4 text-uppercase text-light">Starlink Kenya Pricing</h1>
+                <h1 class="fs-2 fs-lg-4 text-uppercase text-light">Amazon LEO Internet Kenya Pricing</h1>
                 <p class="lead text-muted">Get Starlink internet in Kenya with genuine kits and setup support from Orbitlink Solutions. Choose the <strong>Standard Actuated Kit</strong> or the <strong>Flat High Performance Kit</strong> based on your location and usage.</p>
             </div>
         </div>

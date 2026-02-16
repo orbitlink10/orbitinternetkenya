@@ -8,7 +8,7 @@
         <div class="container">
           <div class="row">
             <div class="col-6 col-sm-4 col-xl-4 mb-3">
-              <h4 class="lh-lg fw-bold text-light">STARLINK KENYA</h4>
+              <h4 class="lh-lg fw-bold text-light">AMAZON LEO INTERNET KENYA</h4>
             </div>
             <div class="col-6 col-sm-4 col-xl-4 mb-3">
               <h5 class="lh-lg fw-bold text-light">MENU</h5>

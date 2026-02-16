@@ -10,7 +10,7 @@
           <div class="row align-items-center min-vh-75 min-vh-xl-100">
             <div class="col-md-8 col-lg-6 text-md-start text-center">
               <h2 class="display-1 lh-sm text-uppercase text-light">Starlink <br class="d-none d-xxl-block" /> Kenya</h2>
-              <p>Discover Starlink Kenya, your trusted provider of Starlink kit and professional installation services in Kenya. We offer high-quality satellite
+              <p>Discover Amazon LEO Internet Kenya, your trusted provider of Starlink kit and professional installation services in Kenya. We offer high-quality satellite
               internet solutions to ensure fast, reliable connectivity across the countr</p>
               <div class="pt-4">
                 <a class="btn btn-sm btn-outline-primary me-3" href="#collections">Buy Startlink Kit</a>
@@ -36,23 +36,23 @@
                     <div class="row h-100">
                       <div class="col-12">
                         <h5 class="text-uppercase">Fast Satellite Internet Across Kenya</h5>
-                        <p class="my-4 pe-xl-5">Starlink Kenya provides high-speed satellite internet solutions across Kenya, offering Starlink equipment, expert installation, and dedicated support. Our mission is to enhance connectivity, even in remote and underserved areas.net technology in Kenya.</p>
+                        <p class="my-4 pe-xl-5">Amazon LEO Internet Kenya provides high-speed satellite internet solutions across Kenya, offering Starlink equipment, expert installation, and dedicated support. Our mission is to enhance connectivity, even in remote and underserved areas.net technology in Kenya.</p>
                       </div>
                     </div>
                   </div>
                   <div class="carousel-item">
                     <div class="row h-100">
                       <div class="col-12">
-                        <h5 class=""> Starlink Kenya benefits </h5>
-                        <p class="my-4 pe-xl-5">Starlink Kenya delivers cutting-edge satellite internet technology that ensures fast, consistent connectivity, even in remote or underserved areas where traditional services fall short. Our team of certified professionals provides expert installation services. </p>
+                        <h5 class=""> Amazon LEO Internet Kenya benefits </h5>
+                        <p class="my-4 pe-xl-5">Amazon LEO Internet Kenya delivers cutting-edge satellite internet technology that ensures fast, consistent connectivity, even in remote or underserved areas where traditional services fall short. Our team of certified professionals provides expert installation services. </p>
                       </div>
                     </div>
                   </div>
                   <div class="carousel-item">
                     <div class="row h-100">
                       <div class="col-12">
-                        <h5 class="">Save money by bundling your internet with Starlink Kenya</h5>
-                        <p class="my-4 pe-xl-5">Get high-speed satellite internet with Starlink Kenya at a great price. Certified installation ensures reliable connectivity in remote areas.</p>
+                        <h5 class="">Save money by bundling your internet with Amazon LEO Internet Kenya</h5>
+                        <p class="my-4 pe-xl-5">Get high-speed satellite internet with Amazon LEO Internet Kenya at a great price. Certified installation ensures reliable connectivity in remote areas.</p>
                       </div>
                     </div>
                   </div>
@@ -172,7 +172,7 @@ Finally, use the Starlink app to monitor and optimize your connection, adjusting
                     <div class="">
 
                     <div class="accordion" id="faqAccordion">
-                    <h2 class="text-light">Starlink Kenya FAQS</h2>
+                    <h2 class="text-light">Amazon LEO Internet Kenya FAQS</h2>
   <div class="accordion-item">
     <h2 class="accordion-header" id="faq1">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">

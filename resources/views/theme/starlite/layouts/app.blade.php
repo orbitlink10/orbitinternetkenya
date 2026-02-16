@@ -12,7 +12,7 @@
     </title>
 
     <meta name="description" content="@yield('meta_description', 'Starlite Internet Kenya is the official Starlink reseller and installer in Kenya, delivering fast, reliable satellite internet with professional setup nationwide.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'Starlink Kenya, Starlite Internet Kenya, satellite internet, Starlink kits, installation, connectivity, Kenya')">
+    <meta name="keywords" content="@yield('meta_keywords', 'Amazon LEO Internet Kenya, Starlite Internet Kenya, satellite internet, Starlink kits, installation, connectivity, Kenya')">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="@yield('og_title', 'Starlite Internet Kenya | Official Starlink Reseller & Installer')" />

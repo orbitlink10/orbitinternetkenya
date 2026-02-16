@@ -1,6 +1,6 @@
 
 @extends('theme.layouts.main')
-@section('title') About Starlink Kenya @endsection
+@section('title') About Amazon LEO Internet Kenya @endsection
 @section('main')
 
         <!--Page Header Start-->
@@ -46,7 +46,7 @@
                     <div class="col-xl-6">
                         <div class="about-four__right">
                             <div class="section-title text-left">
-                                <span class="section-title__tagline">About Starlink Kenya</span>
+                                <span class="section-title__tagline">About Amazon LEO Internet Kenya</span>
                                 <h2 class="section-title__title">Connect with Starlink in Kenya | Fast Satellite Internet Across Kenya</h2>
                             </div>
                             <p class="about-four__text-1">There are many variations of passages of lorem ipsum available

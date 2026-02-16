@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Dynamic Title and Description -->
-    <title>@yield('title', 'Starlink Kenya | Authorized Reseller')</title>
-    <meta name="description" content="@yield('meta_description', 'Discover Starlink Kenya, your trusted provider of Starlink kits and professional installation services in Kenya. We offer high-quality satellite internet solutions to ensure fast, reliable connectivity across the country.')">
+    <title>@yield('title', 'Amazon LEO Internet Kenya | Authorized Reseller')</title>
+    <meta name="description" content="@yield('meta_description', 'Discover Amazon LEO Internet Kenya, your trusted provider of Starlink kits and professional installation services in Kenya. We offer high-quality satellite internet solutions to ensure fast, reliable connectivity across the country.')">
 
 
 <meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
@@ -17,18 +17,18 @@
 
   <link rel="canonical" href="{{ url()->current() }}" />
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="@yield('og_title', 'Starlink Kenya | Reliable Satellite Internet')" />
+    <meta property="og:title" content="@yield('og_title', 'Amazon LEO Internet Kenya | Reliable Satellite Internet')" />
     <meta property="og:description" content="@yield('og_description', 'Providing Starlink kits and installations for seamless internet connectivity.')" />
     <meta property="og:image" content="@yield('og_image', asset('default-image.jpg'))" />
     <meta property="og:url" content="@yield('og_url', url('/'))" />
-    <meta property="og:site_name" content="{{ get_option('site_name', 'Starlink Kenya') }}" />
+    <meta property="og:site_name" content="{{ get_option('site_name', 'Amazon LEO Internet Kenya') }}" />
     <meta property="og:type" content="@yield('og_type', 'website')" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@yield('twitter_site', url('/'))" />
-    <meta name="twitter:title" content="@yield('twitter_title', get_option('site_name', 'Starlink Kenya'))" />
-    <meta name="twitter:description" content="@yield('twitter_description', 'Starlink Kenya offers reliable satellite internet connectivity solutions.')" />
+    <meta name="twitter:title" content="@yield('twitter_title', get_option('site_name', 'Amazon LEO Internet Kenya'))" />
+    <meta name="twitter:description" content="@yield('twitter_description', 'Amazon LEO Internet Kenya offers reliable satellite internet connectivity solutions.')" />
     <meta name="twitter:image" content="@yield('twitter_image', asset('default-image.jpg'))" />
    @show
 
@@ -115,7 +115,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <!-- Brand / Logo -->
-            <a class="navbar-brand" href="{{ url('/') }}">{{ get_option('site_name', 'Starlink Kenya') }}</a>
+            <a class="navbar-brand" href="{{ url('/') }}">{{ get_option('site_name', 'Amazon LEO Internet Kenya') }}</a>
 
             <!-- Mobile Menu Toggle -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">

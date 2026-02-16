@@ -7,7 +7,7 @@
                           get_option('hero_header_title', 'Spacelink Kenya: Your Gateway to High-Speed Satellite Internet')
                        );
   $heroDesc          = Cache::remember('spacelink_hero_desc', 3600, function () {
-                          $desc = get_option('hero_header_description', 'Purchase genuine Starlink Kenya kits and enjoy expert installation across Kenya. Reliable satellite internet for homes and businesses.');
+                          $desc = get_option('hero_header_description', 'Purchase genuine Amazon LEO Internet Kenya kits and enjoy expert installation across Kenya. Reliable satellite internet for homes and businesses.');
                           return \Illuminate\Support\Str::limit(\Illuminate\Support\Str::squish(strip_tags($desc)), 155, '');
                        });
   $heroImage         = Cache::remember('spacelink_hero_img', 3600, fn() =>
@@ -68,7 +68,7 @@
   <div class="container">
     <div class="row mb-5">
       <div class="col-lg-7 text-center text-lg-start">
-        <h2 class="fw-bold mb-3">Our <span class="text-gradient">Starlink Kenya Kits</span></h2>
+        <h2 class="fw-bold mb-3">Our <span class="text-gradient">Amazon LEO Internet Kenya Kits</span></h2>
         <p class="text-muted">Explore our genuine Starlink hardware and accessories.</p>
       </div>
     </div>
@@ -238,9 +238,9 @@
   <div class="container">
     <div class="row align-items-center gy-5">
       <div class="col-lg-6">
-        <h2 class="fw-bold mb-4">Discover <span class="text-gradient">Starlink Kenya</span></h2>
+        <h2 class="fw-bold mb-4">Discover <span class="text-gradient">Amazon LEO Internet Kenya</span></h2>
         <p class="lead text-muted mb-4">
-          Cutting-edge Starlink Kenya satellite internet with local expertiseâ€”reliable, low-latency connectivity across all of Kenya.
+          Cutting-edge Amazon LEO Internet Kenya satellite internet with local expertiseâ€”reliable, low-latency connectivity across all of Kenya.
         </p>
         <ul class="list-unstyled">
           <li class="d-flex mb-3"><i class="bi bi-check2 text-primary me-3"></i>Speeds up to 220 Mbps</li>
@@ -252,7 +252,7 @@
       <div class="col-lg-6">
         <div class="ratio ratio-16x9 rounded-4 shadow overflow-hidden">
           <iframe src="https://www.youtube.com/embed/ZBpsEnxmsG4"
-                  title="Starlink Kenya Intro"
+                  title="Amazon LEO Internet Kenya Intro"
                   allowfullscreen
                   loading="lazy"></iframe>
         </div>
@@ -264,7 +264,7 @@
 <!--=== Features ===-->
 <section id="features" class="section-py bg-light">
   <div class="container">
-    <h2 class="text-center fw-bold mb-5">Why Choose <span class="text-gradient">Starlink Kenya</span>?</h2>
+    <h2 class="text-center fw-bold mb-5">Why Choose <span class="text-gradient">Amazon LEO Internet Kenya</span>?</h2>
     <div class="row g-4">
       @foreach([
         ['icon'=>'award',       'title'=>'Official Reseller',        'text'=>'Authentic hardware & service'],
@@ -293,7 +293,7 @@
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Our Solutions</span>
       <h2 class="fw-bold mb-3">Starlink <span class="text-gradient">Extensions</span></h2>
       <p class="lead text-muted mx-auto" style="max-width:700px;">
-        Scale your Starlink Kenya footprint with official extension kits and network designâ€”ideal for estates, communities, and tough terrain.
+        Scale your Amazon LEO Internet Kenya footprint with official extension kits and network designâ€”ideal for estates, communities, and tough terrain.
       </p>
     </div>
     <div class="row g-4">
@@ -322,7 +322,7 @@
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Our Work</span>
       <h2 class="fw-bold mb-3">Recent <span class="text-gradient">Installations</span></h2>
       <p class="lead text-muted mx-auto" style="max-width:700px;">
-        See our latest Starlink Kenya setups across the country.
+        See our latest Amazon LEO Internet Kenya setups across the country.
       </p>
     </div>
     <div id="installationsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
@@ -402,7 +402,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Our Services</span>
-      <h2 class="fw-bold mb-3">Explore Our <span class="text-gradient">Starlink Kenya</span> Solutions</h2>
+      <h2 class="fw-bold mb-3">Explore Our <span class="text-gradient">Amazon LEO Internet Kenya</span> Solutions</h2>
     </div>
     <div class="row g-4">
       @foreach($cachedServices as $service)
@@ -436,7 +436,7 @@
             <h2 class="fw-bold mb-4">About Spacelink Kenya</h2>
             <p>
               At <strong>Spacelink Kenya</strong>, weâ€™re on a mission to connect every corner of the country with reliable,
-              high-speed satellite internet. As the authorized provider of genuine <strong>Starlink Kenya</strong> kits,
+              high-speed satellite internet. As the authorized provider of genuine <strong>Amazon LEO Internet Kenya</strong> kits,
               our team combines deep technical expertise with local know-how to deliver end-to-end serviceâ€”from hardware
               procurement and delivery to professional on-site installation and ongoing support.
             </p>
@@ -449,7 +449,7 @@
             <h4 class="mt-4">Get Online, Stay Online</h4>
             <p>
               Whether youâ€™re in Nairobiâ€™s CBD or a remote homestead in Turkana, <strong>Spacelink Kenya</strong> brings the
-              power of <strong>Starlink Kenya</strong>â€”ultra-low latency and gigabit-class speedsâ€”to your doorstep.
+              power of <strong>Amazon LEO Internet Kenya</strong>â€”ultra-low latency and gigabit-class speedsâ€”to your doorstep.
               Ready to transform your connectivity?
             </p>
             <a href="{{ url('shop') }}" class="btn btn-primary mt-3">Order Your Kit Now</a>

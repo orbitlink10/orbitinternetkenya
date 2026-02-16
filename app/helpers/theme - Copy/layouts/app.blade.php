@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>@section('title') Starlink Kenya @show</title>
+    <title>@section('title') Amazon LEO Internet Kenya @show</title>
 
 
     <!-- ===============================================-->
@@ -40,13 +40,13 @@
     <!-- ===============================================-->
     <main class="main" id="top">
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand d-inline-flex" href="{{ url('/') }}"><span class="text-light fs-2 fw-bold ms-2">Starlink Kenya</span></a>
+        <div class="container"><a class="navbar-brand d-inline-flex" href="{{ url('/') }}"><span class="text-light fs-2 fw-bold ms-2">Amazon LEO Internet Kenya</span></a>
           <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li style="margin-left: 100px;" class="nav-item px-2"><a class="nav-link fw-bold active" aria-current="page" href="{{ route('product') }}">Buy Starlink Kit</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="{{ url('how-to-order') }}">Installation</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="{{ url('starlink-kenya-price') }}">Starlink Kenya Price</a></li>
+              <li class="nav-item px-2"><a class="nav-link fw-bold" href="{{ url('starlink-kenya-price') }}">Amazon LEO Internet Kenya Price</a></li>
               @if(Auth::check())
                 @if(Auth::user()->is_admin())
                   <li class="nav-item px-2"><a class="nav-link fw-bold" href="{{ route('account.dashboard') }}">My Account</a></li>

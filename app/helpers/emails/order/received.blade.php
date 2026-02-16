@@ -29,7 +29,7 @@
     <p>Thank you for your order. We will notify you once it has shipped.</p>
 
     <p>Best regards,<br>
-    Starlink Kenya Team<br>
+    Amazon LEO Internet Kenya Team<br>
     <br>
     +254 729 299 439</p>
 </body>

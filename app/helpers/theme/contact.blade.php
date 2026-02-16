@@ -12,9 +12,9 @@
                         <div class="contact-page__left">
                             <div class="section-title text-left mb-4">
                                 <span class="section-title__tagline text-primary">Contact with us</span>
-                                <h2 class="section-title__title">Ready to get in touch with Starlink Kenya</h2>
+                                <h2 class="section-title__title">Ready to get in touch with Amazon LEO Internet Kenya</h2>
                             </div>
-                            <p class="contact-page__text mb-4">Starlink Kenya offers high-speed satellite internet service by SpaceX, providing reliable connectivity across remote and urban areas, enhancing access to digital services and global opportunities.</p>
+                            <p class="contact-page__text mb-4">Amazon LEO Internet Kenya offers high-speed satellite internet service by SpaceX, providing reliable connectivity across remote and urban areas, enhancing access to digital services and global opportunities.</p>
                             <ul class="list-unstyled contact-page__contact-list">
                                 <li class="mb-3">
                                     <div class="d-flex align-items-center">

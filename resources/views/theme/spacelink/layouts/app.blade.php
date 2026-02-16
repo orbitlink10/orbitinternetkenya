@@ -42,7 +42,7 @@
     <meta property="og:description" content="@yield('og_description', $metaDescription)" />
     <meta property="og:image" content="@yield('og_image', get_option('hero_image'))" />
     <meta property="og:url" content="@yield('og_url', url('/'))" />
-    <meta property="og:site_name" content="{{ get_option('site_name', 'Starlink Kenya Installers') }}" />
+    <meta property="og:site_name" content="{{ get_option('site_name', 'Amazon LEO Internet Kenya') }}" />
     <meta property="og:type" content="@yield('og_type', 'website')" />
 
     <!-- Twitter Card Meta Tags -->
@@ -71,7 +71,7 @@
     {{-- Structured Data: LocalBusiness and WebSite --}}
     @php
         $siteUrl   = rtrim(request()->getSchemeAndHttpHost(), '/');
-        $siteName  = get_option('site_name', 'Starlink Kenya Installers');
+        $siteName  = get_option('site_name', 'Amazon LEO Internet Kenya');
         $logo      = get_option('logo');
         $heroImage = get_option('hero_image') ?: $logo;
         $phone     = get_option('contact_phone');

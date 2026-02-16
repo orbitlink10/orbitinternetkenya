@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Starlink Kenya</title>
+  <title>Amazon LEO Internet Kenya</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -45,7 +45,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{asset('assets/images/logo/logo.png')}}" width="80" height="80" alt="STARLINK KENYA">
+          <img src="{{asset('assets/images/logo/logo.png')}}" width="80" height="80" alt="AMAZON LEO INTERNET KENYA">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{Auth::user()->name}}</a>
@@ -197,7 +197,7 @@
 
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2024-2050 <a href="#">STARLINK KENYA</a>.</strong>
+    <strong>Copyright &copy; 2024-2050 <a href="#">AMAZON LEO INTERNET KENYA</a>.</strong>
     All rights reserved.
     
   </footer>

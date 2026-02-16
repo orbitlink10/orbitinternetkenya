@@ -11,9 +11,9 @@
                 <div class="contact-page__left">
                     <div class="section-title text-left mb-4">
                         <span class="section-title__tagline text-primary">Contact with us</span>
-                        <h2 class="section-title__title">Ready to get in touch with Starlink Kenya</h2>
+                        <h2 class="section-title__title">Ready to get in touch with Amazon LEO Internet Kenya</h2>
                     </div>
-                    <p class="contact-page__text mb-4">Discover Starlink Kenya, your trusted provider of Starlink kits and professional installation services in Kenya. We offer high-quality satellite internet solutions to ensure fast, reliable connectivity across the country. </p>
+                    <p class="contact-page__text mb-4">Discover Amazon LEO Internet Kenya, your trusted provider of Starlink kits and professional installation services in Kenya. We offer high-quality satellite internet solutions to ensure fast, reliable connectivity across the country. </p>
                     <ul class="list-unstyled contact-page__contact-list">
                         <!-- Phone Contact -->
                         <li class="mb-3">

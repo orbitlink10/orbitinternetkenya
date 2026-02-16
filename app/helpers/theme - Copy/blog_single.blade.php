@@ -12,7 +12,7 @@
     <meta property="og:image:width" content="1478" />
     <meta property="og:image:height" content="1108" />
     <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:site_name" content="Starlink Kenya" />
+    <meta property="og:site_name" content="Amazon LEO Internet Kenya" />
     <meta property="og:type" content="website" />
     <meta name="twitter:image" content="/images?path={{ $post->photo }}" />
     <meta name="twitter:site" content="www.starlinkkenya.co.ke" />

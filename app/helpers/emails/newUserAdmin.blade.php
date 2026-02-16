@@ -4,7 +4,7 @@
     <title>New User Registration Notification</title>
 </head>
 <body>
-    <p>Dear Starlink Kenya,</p>
+    <p>Dear Amazon LEO Internet Kenya,</p>
 
     <p>I hope this message finds you well.</p>
 
@@ -24,7 +24,7 @@
     <p>Thank you for overseeing this process.</p>
 
     <p>Best regards,<br>
-    Starlink Kenya<br>
+    Amazon LEO Internet Kenya<br>
     <br>
     +254 729 299 439</p>
 </body>

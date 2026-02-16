@@ -70,7 +70,7 @@
 
     @php
         $siteUrl   = rtrim(config('app.url') ?: url('/'), '/');
-        $siteName  = get_option('site_name', 'Starlink Kenya Installers');
+        $siteName  = get_option('site_name', 'Amazon LEO Internet Kenya');
         $logo      = get_option('logo');
         $heroImage = get_option('hero_image') ?: $logo;
         $phone     = get_option('contact_phone');
