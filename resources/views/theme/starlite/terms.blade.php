@@ -1,0 +1,11 @@
+
+@extends('theme.starlite.layouts.orbit_main')
+@section('title') Terms For {{ get_option('site_name') }} @endsection
+@section('main')
+
+<section class="py-5" id="terms">
+    <div class="container">
+       {!! get_option('terms') !!}
+    </div>
+</section>
+ @endsection
