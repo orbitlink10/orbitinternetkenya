@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 use App\Models\Transaction;
 use App\Models\User;
@@ -49,6 +50,7 @@ use Carbon\Carbon;
 
 class WelcomeController extends Controller
 {
+    private ?bool $postsTableAvailable = null;
 
     public function __construct(protected MpesaService $mpesaService)
     {
@@ -61,30 +63,39 @@ class WelcomeController extends Controller
     //post lists
     public function index(Request $request)
     {
-        $posts  = Post::orderBy('id', 'desc')->paginate(30);
+        $posts = $this->postsQuery()->orderBy('id', 'desc')->paginate(30);
         $pages = Page::whereType('page')
             ->get();
             
-        $new  = Post::orderBy('id', 'desc')->take(5)->get();
+        $new = $this->latestPosts();
         $tags = Category::all();
         if ($request->search) {
-            $posts  = Post::where('id', 'like', "%{$request->search}%")->orWhere('title', 'like', "%{$request->search}%")->paginate(4);
+            $search = (string) $request->search;
+            $posts = $this->postsQuery()
+                ->where(function ($query) use ($search) {
+                    $query->where('id', 'like', "%{$search}%")
+                        ->orWhere('title', 'like', "%{$search}%");
+                })
+                ->orderBy('id', 'desc')
+                ->paginate(4);
         }
         $jobTitle = $request->input('job_title');
         $location = $request->input('location');
         $category = $request->input('category');
         if ($jobTitle || $location || $category) {
-            $query = Post::orderBy('id', 'desc');
+            $query = $this->postsQuery()->orderBy('id', 'desc');
 
             if ($jobTitle) {
                 $query->where('title', 'like', "%$jobTitle%");
             }
 
-            if ($location) {
-                $query->where('location', $location);
-            }
-            if ($category) {
-                $query->where('category_id', $category);
+            if ($this->hasPostsTable()) {
+                if ($location) {
+                    $query->where('location', $location);
+                }
+                if ($category) {
+                    $query->where('category_id', $category);
+                }
             }
 
             $posts = $query->paginate(4);
@@ -479,8 +490,8 @@ public function reviews()
 
     public function allPosts()
     {
-        $posts  = Post::orderBy('id', 'desc')->paginate(20);
-        $new  = Post::orderBy('id', 'desc')->take(5)->get();
+        $posts = $this->postsQuery()->orderBy('id', 'desc')->paginate(20);
+        $new = $this->latestPosts();
         $tags = Category::all();
         $options =Option::all();
         return view('all_blogs', compact('posts', 'new', 'tags','options'));
@@ -500,16 +511,24 @@ public function reviews()
             abort(404);
         }
 
-        // posts table has no category_id; use pivot post_tag (tags) mapping
-        $postIds = \App\Models\Post_tag::whereTagId($category->id)->pluck('post_id');
-        $categoryPosts = Post::whereIn('id', $postIds)->orderBy('id', 'desc')->paginate(10);
+        if ($this->hasPostsTable()) {
+            // posts table has no category_id; use pivot post_tag (tags) mapping
+            $postIds = \App\Models\Post_tag::whereTagId($category->id)->pluck('post_id');
+            $categoryPosts = Post::whereIn('id', $postIds)->orderBy('id', 'desc')->paginate(10);
+            $tagCounts = \App\Models\Post_tag::selectRaw('tag_id, COUNT(*) as total')
+                ->groupBy('tag_id')
+                ->pluck('total', 'tag_id');
+        } else {
+            $categoryPosts = Page::whereRaw('LOWER(type) = ?', ['post'])
+                ->where('title', 'like', '%' . $category->name . '%')
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+            $tagCounts = collect();
+        }
 
-        $new  = Post::orderBy('id', 'desc')->take(5)->get();
+        $new = $this->latestPosts();
         $tags = Category::all();
         $options = Option::all();
-        $tagCounts = \App\Models\Post_tag::selectRaw('tag_id, COUNT(*) as total')
-            ->groupBy('tag_id')
-            ->pluck('total', 'tag_id');
 
         return view('show', compact('category', 'categoryPosts', 'new', 'tags', 'options', 'tagCounts'));
     }
@@ -541,7 +560,7 @@ public function reviews()
 
         $post = Page::where('slug', $slug)->first();
         $title = $post->title;
-        $new  = Post::orderBy('id', 'desc')->take(5)->get();
+        $new = $this->latestPosts();
         $tags = Category::all();
         $options =Option::all();
         return view('view_article', compact('new', 'title', 'post', 'tags','options'));
@@ -575,7 +594,7 @@ public function reviews()
         // 1) Try to resolve a CMS page by slug
         $page = $this->resolvePageBySlug($slug, 'page');
         if ($page) {
-            $new     = Post::orderBy('id', 'desc')->take(5)->get();
+            $new     = $this->latestPosts();
             $tags    = Category::all();
             $options = Option::all();
             $medias  = Media::wherePageId($page->id)->limit(30)->get();
@@ -607,7 +626,7 @@ public function reviews()
         // 3) Nothing matched - show a 404 to avoid blank screens
         $legacyPost = $this->resolvePostBySlug($slug);
         if ($legacyPost) {
-            $new      = Post::orderBy('id', 'desc')->take(5)->get();
+            $new      = $this->latestPosts();
             $category = Category::all();
             $options  = Option::all();
             $medias   = Media::wherePageId($legacyPost->id)->limit(30)->get();
@@ -1414,8 +1433,47 @@ public function confirmation(Request $request)
         return $candidate ? Page::find($candidate->id) : null;
     }
 
+    private function hasPostsTable(): bool
+    {
+        if ($this->postsTableAvailable !== null) {
+            return $this->postsTableAvailable;
+        }
+
+        try {
+            $this->postsTableAvailable = Schema::hasTable('posts');
+        } catch (\Throwable $exception) {
+            Log::warning('Unable to determine posts table availability.', [
+                'error' => $exception->getMessage(),
+            ]);
+            $this->postsTableAvailable = false;
+        }
+
+        return $this->postsTableAvailable;
+    }
+
+    private function postsQuery()
+    {
+        if ($this->hasPostsTable()) {
+            return Post::query();
+        }
+
+        return Page::query()->whereRaw('LOWER(type) = ?', ['post']);
+    }
+
+    private function latestPosts(int $limit = 5)
+    {
+        return $this->postsQuery()
+            ->orderBy('id', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
     private function resolvePostBySlug(string $slug): ?Post
     {
+        if (!$this->hasPostsTable()) {
+            return null;
+        }
+
         $canonicalSlug = $this->normalizePublicSlug($slug);
         $candidates = collect([$slug, rawurldecode($slug), $canonicalSlug])
             ->filter(fn ($value) => is_string($value) && $value !== '')
@@ -1676,7 +1734,6 @@ public function confirmation(Request $request)
                        }
 
 }
-
 
 
 
