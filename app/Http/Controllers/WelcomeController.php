@@ -354,12 +354,34 @@ public function reviews()
 
 
     public function product_details($slug){
-        $product = Product::where('slug',$slug)->first();
-        if(!$product){
-            return back()->with('error','Not Found');
+        $product = Product::where('slug', $slug)
+            ->where('product_type', 'product')
+            ->first();
+
+        if (! $product) {
+            $legacyProduct = Product::onlyTrashed()
+                ->where('slug', $slug)
+                ->where('product_type', 'product')
+                ->first();
+
+            if ($legacyProduct) {
+                $replacementProduct = Product::where('product_type', 'product')
+                    ->where(function ($query) use ($legacyProduct) {
+                        $query->where('name', $legacyProduct->name)
+                            ->orWhere('slug', Str::slug((string) $legacyProduct->name));
+                    })
+                    ->latest('id')
+                    ->first();
+
+                if ($replacementProduct) {
+                    return redirect()->route('product_details', $replacementProduct->slug, 301);
+                }
+            }
+
+            abort(404);
         }
 
-              $mediafiles  = Media::whereProductId($product->id)->get();
+        $mediafiles = Media::whereProductId($product->id)->get();
         return view('theme.'.get_option('theme').'.product_details', compact('product', 'mediafiles'));
     }
 
@@ -1654,7 +1676,6 @@ public function confirmation(Request $request)
                        }
 
 }
-
 
 
 
