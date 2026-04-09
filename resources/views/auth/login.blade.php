@@ -1,21 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 @php
-    $siteName = trim((string) get_option('site_name', 'OrbitInternet Kenya')) ?: 'OrbitInternet Kenya';
-    $supportEmail = trim((string) get_option('contact_email', 'info@orbitinternetkenya.co.ke'));
+    $rawSiteName = trim((string) get_option('site_name', 'OrbitInternet Kenya'));
+    $normalizedSiteName = strtolower($rawSiteName);
+    $usesLegacyBrand =
+        $normalizedSiteName === '' ||
+        str_contains($normalizedSiteName, 'spacelink') ||
+        str_contains($normalizedSiteName, 'amazon leo') ||
+        str_contains($normalizedSiteName, 'orbitlink') ||
+        str_contains($normalizedSiteName, 'nara luxury');
+
+    $siteName = $usesLegacyBrand ? 'OrbitInternet Kenya' : $rawSiteName;
+
+    $rawSupportEmail = trim((string) get_option('contact_email', ''));
+    $normalizedSupportEmail = strtolower($rawSupportEmail);
+    $emailLooksLegacy =
+        $normalizedSupportEmail === '' ||
+        ! filter_var($rawSupportEmail, FILTER_VALIDATE_EMAIL) ||
+        str_contains($normalizedSupportEmail, 'spacelink') ||
+        str_contains($normalizedSupportEmail, 'starlink') ||
+        str_contains($normalizedSupportEmail, 'ikokazi');
+
+    $supportEmail = $emailLooksLegacy ? 'info@orbitinternetkenya.co.ke' : $rawSupportEmail;
     $supportPhone = trim((string) get_option('contact_phone'));
     $supportAddress = trim((string) get_option('address'));
-    $rawLogo = trim((string) get_option('logo'));
-    $logoUrl = null;
-
-    if ($rawLogo !== '') {
-        $isAbsoluteLogo = \Illuminate\Support\Str::startsWith($rawLogo, ['http://', 'https://', '//']);
-        $logoUrl = $isAbsoluteLogo ? $rawLogo : url($rawLogo);
-    }
-
     $favicon = trim((string) get_option('favicon'));
     if ($favicon !== '' && ! \Illuminate\Support\Str::startsWith($favicon, ['http://', 'https://', '//'])) {
         $favicon = url($favicon);
+    }
+
+    $brandInitials = 'OI';
+    $nameParts = preg_split('/\s+/', preg_replace('/[^A-Za-z0-9 ]+/', ' ', $siteName)) ?: [];
+    $initials = '';
+    foreach ($nameParts as $part) {
+        if ($part !== '') {
+            $initials .= strtoupper(substr($part, 0, 1));
+        }
+        if (strlen($initials) >= 2) {
+            break;
+        }
+    }
+    if ($initials !== '') {
+        $brandInitials = $initials;
     }
 @endphp
 <head>
@@ -141,26 +167,20 @@
             width: 56px;
             height: 56px;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.14);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
             border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             flex-shrink: 0;
-        }
-
-        .brand-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
         }
 
         .brand-logo-fallback {
             font-family: "Space Grotesk", sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.12em;
+            color: #ffffff;
         }
 
         .brand-name {
@@ -468,11 +488,7 @@
                 <div class="brand-inner">
                     <div class="brand-lockup">
                         <a href="{{ url('/') }}" class="brand-logo" aria-label="{{ $siteName }} home">
-                            @if($logoUrl)
-                                <img src="{{ $logoUrl }}" alt="{{ $siteName }} logo">
-                            @else
-                                <span class="brand-logo-fallback">{{ strtoupper(substr($siteName, 0, 2)) }}</span>
-                            @endif
+                            <span class="brand-logo-fallback">{{ $brandInitials }}</span>
                         </a>
                         <div class="brand-name">{{ $siteName }}</div>
                     </div>
