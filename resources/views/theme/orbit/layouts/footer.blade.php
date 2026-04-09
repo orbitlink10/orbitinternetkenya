@@ -1,7 +1,7 @@
 </main>
 <footer class="main footer-modern">
     @php
-        $siteName = get_option('site_name', 'Orbitlink Solutions');
+        $siteName = get_option('site_name', 'OrbitInternet Kenya');
         $rawLogo = get_option('logo');
         $logoUrl = null;
         if (!empty($rawLogo)) {
@@ -10,7 +10,7 @@
         }
         $footerDesc = trim(strip_tags((string) get_option('contact_description')));
         if ($footerDesc === '') {
-            $footerDesc = 'Networking, Starlink, CCTV, WiFi, and ICT solutions across Kenya.';
+            $footerDesc = 'Reliable internet, WiFi, CCTV, networking, and installation services across Kenya.';
         }
     @endphp
     <section class="footer-top-chips py-4">

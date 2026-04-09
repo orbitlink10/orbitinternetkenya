@@ -1,4 +1,8 @@
 </main>
+@php
+  $siteName = trim((string) get_option('site_name', 'OrbitInternet Kenya')) ?: 'OrbitInternet Kenya';
+  $contactEmail = trim((string) get_option('contact_email'));
+@endphp
 <footer class="bg-dark text-light pt-5">
   <div class="container">
     <div class="row g-4 pb-5">
@@ -6,7 +10,7 @@
       <!-- About & Contact -->
       <div class="col-md-4">
         <a href="{{ url('/') }}" class="d-inline-block mb-3">
-          <img src="{{ get_option('logo') }}" alt="{{ get_option('site_name') }} logo" height="50">
+          <img src="{{ get_option('logo') }}" alt="{{ $siteName }} logo" height="50">
         </a>
         <ul class="list-unstyled mb-3">
           <li class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i>{{ get_option('address') }}</li>
@@ -16,6 +20,14 @@
               {{ get_option('contact_phone') }}
             </a>
           </li>
+          @if($contactEmail !== '')
+          <li class="mb-2">
+            <i class="bi bi-envelope-fill me-2"></i>
+            <a href="mailto:{{ $contactEmail }}" class="text-light text-decoration-none">
+              {{ $contactEmail }}
+            </a>
+          </li>
+          @endif
           <li><i class="bi bi-clock-fill me-2"></i>Mon-Sat: 9AM-6PM</li>
         </ul>
         <div class="d-flex gap-3">
@@ -59,7 +71,7 @@
           <button class="btn btn-primary">Contact Us</button>
         </form>
         <p class="mt-3 small text-muted">
-          Reach out for updates on Amazon LEO Internet Kenya offers, setups, and availability.
+          Reach out for updates on {{ $siteName }} packages, installations, and availability.
         </p>
       </div>
 
@@ -69,11 +81,11 @@
   <div class="bg-secondary text-center py-3">
     <div class="container">
       <p class="mb-1 small">
-        &copy; {{ date('Y') }} <strong class="text-light">{{ get_option('site_name') }}</strong>.
+        &copy; {{ date('Y') }} <strong class="text-light">{{ $siteName }}</strong>.
         All rights reserved.
       </p>
       <p class="mb-0 small">
-        <em>Disclaimer:</em> StarlinkKenyaInstallers.co.ke is an independent specialist and not affiliated with Starlink.
+        <em>Disclaimer:</em> {{ $siteName }} is an independent internet solutions provider. Third-party brands mentioned on this site belong to their respective owners.
       </p>
     </div>
   </div>
@@ -199,4 +211,3 @@
 </body>
 
 </html>
-
