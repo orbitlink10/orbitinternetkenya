@@ -61,6 +61,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Route URL Fallback
+    |--------------------------------------------------------------------------
+    |
+    | Some shared hosting setups serve index.php correctly but do not apply
+    | rewrite rules for clean URLs. When enabled, generated route()/url()
+    | links are prefixed with /index.php to keep the site usable.
+    |
+    */
+
+    'force_index_php' => env('APP_FORCE_INDEX_PHP'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

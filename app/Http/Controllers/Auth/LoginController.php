@@ -31,11 +31,12 @@ class LoginController extends Controller
     {
         // Check if the authenticated user is an admin
         if (auth()->user()->is_admin()) {
-            return '/home';  // Admin Dashboard Route
-        }elseif(auth()->user()->is_buyer()){
-            return '/account/dashboard';
+            return route('home');
+        } elseif (auth()->user()->is_buyer()) {
+            return route('account.dashboard');
         }
-        
+
+        return route('home');
     }
 
     /**
