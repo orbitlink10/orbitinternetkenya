@@ -1,290 +1,495 @@
 @extends('layouts.appbar')
 
+@php
+    $heroImage = trim((string) get_option('hero_image'));
+@endphp
+
 @section('content')
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+<div class="content-wrapper homepage-content-page">
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
+        <div class="container-fluid px-0">
+            <div class="homepage-header">
+                <div>
+                    <span class="homepage-kicker">Content Management</span>
                     <h1>Update Homepage Content</h1>
+                    <p class="homepage-subtitle">Edit the homepage hero, supporting copy, and long-form content from one structured workspace.</p>
                 </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Update Content</li>
-                    </ol>
+                <div class="homepage-header-actions">
+                    <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i> Dashboard
+                    </a>
+                    <button type="submit" form="homepage-content-form" class="btn btn-primary">
+                        <i class="fas fa-save mr-2"></i> Save Changes
+                    </button>
                 </div>
             </div>
+
+            <ol class="breadcrumb float-sm-right dashboard-breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active">Update Content</li>
+            </ol>
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Homepage Content Management</h3>
-                        </div>
-                        <div class="card-body">
-                            @if (session('success'))
-                                <div class="alert alert-success">{{ session('success') }}</div>
-                            @endif
+        <div class="container-fluid px-0">
+            @if (session('success'))
+                <div class="alert alert-success homepage-alert">{{ session('success') }}</div>
+            @endif
 
-                            <form action="{{ route('save_settings') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
+            <form id="homepage-content-form" action="{{ route('save_settings') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-                                <!-- Hero Header Title -->
-                                <div class="form-group">
+                <div class="card homepage-editor-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Homepage Content Management</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="homepage-editor-grid">
+                            <section class="editor-section editor-section-wide">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>Hero Section</h2>
+                                        <p>Set the main headline, supporting description, and the hero image shown at the top of the homepage.</p>
+                                    </div>
+                                </div>
+
+                                <div class="editor-field">
                                     <label for="hero_header_title">Hero Header Title</label>
-                                    <input type="text" class="form-control" name="hero_header_title" value="{{ get_option('hero_header_title', 'Pepasa Stationers') }}" id="hero_header_title" placeholder="Hero header title" required>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="hero_header_title"
+                                        id="hero_header_title"
+                                        value="{{ get_option('hero_header_title', 'OrbitInternet Kenya | High-Speed Internet Across Kenya') }}"
+                                        placeholder="Hero header title"
+                                        required
+                                    >
                                     @if ($errors->has('hero_header_title'))
                                         <span class="text-danger">{{ $errors->first('hero_header_title') }}</span>
                                     @endif
                                 </div>
 
-                                <!-- Hero Header Description -->
-                                <div class="form-group">
+                                <div class="editor-field">
                                     <label for="hero_header_description">Hero Header Description</label>
-                                    <textarea class="form-control" name="hero_header_description" id="hero_header_description" required>{{ get_option('hero_header_description', 'Your one-stop shop for all stationery supplies. From office essentials to school supplies, we\'ve got everything you need to stay organized and productive.') }}</textarea>
+                                    <textarea class="form-control editor-textarea" name="hero_header_description" id="hero_header_description" required>{{ get_option('hero_header_description', 'Reliable internet, installation, and support services for homes and businesses across Kenya.') }}</textarea>
                                     @if ($errors->has('hero_header_description'))
                                         <span class="text-danger">{{ $errors->first('hero_header_description') }}</span>
                                     @endif
                                 </div>
 
+                                <div class="editor-media-grid">
+                                    <div class="editor-field">
+                                        <label for="hero_image">Hero Image (1280 x 720)</label>
+                                        <input type="file" class="form-control" name="hero_image" id="hero_image" accept="image/*">
+                                        <small class="field-help">Upload a landscape image for the homepage hero banner.</small>
+                                    </div>
 
-                                                                <div class="form-group">
-                                    <label for="hero_header_title">Hero Image (1280 x 720)</label>
-                                    <input type="file" class="form-control" name="hero_image" id="hero_header_title" placeholder="Hero header title" >
+                                    <div class="editor-preview">
+                                        <span class="editor-preview-label">Current Hero Image</span>
+                                        @if($heroImage !== '')
+                                            <img src="{{ $heroImage }}" alt="Current hero image preview" class="editor-preview-image">
+                                        @else
+                                            <div class="editor-preview-empty">
+                                                <i class="fas fa-image"></i>
+                                                <span>No hero image uploaded yet</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </section>
 
-
-     <img src="{{ get_option('hero_image', 'Pepasa Stationers') }}">
-                              
+                            <section class="editor-section">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>Homepage Highlights</h2>
+                                        <p>Control the supporting messaging blocks displayed after the hero section.</p>
+                                    </div>
                                 </div>
 
-
-                                <!-- Why Choose Title -->
-                                <div class="form-group">
+                                <div class="editor-field">
                                     <label for="why_choose_title">Why Choose Title</label>
-                                    <input type="text" class="form-control" name="why_choose_title" value="{{ get_option('why_choose_title', 'Why Choose Pepasa Stationers?') }}" id="why_choose_title" required>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="why_choose_title"
+                                        id="why_choose_title"
+                                        value="{{ get_option('why_choose_title', 'Why Choose OrbitInternet Kenya') }}"
+                                        required
+                                    >
                                     @if ($errors->has('why_choose_title'))
                                         <span class="text-danger">{{ $errors->first('why_choose_title') }}</span>
                                     @endif
                                 </div>
 
-                                <!-- Why Choose Description -->
-                                <div class="form-group">
+                                <div class="editor-field">
                                     <label for="why_choose_description">Why Choose Description</label>
-                                    <textarea class="form-control" name="why_choose_description" id="why_choose_description" required>{{ get_option('why_choose_description', 'At Pepasa Stationers, we offer a wide range of high-quality stationery products for individuals, businesses, and educational institutions.') }}</textarea>
+                                    <textarea class="form-control editor-textarea" name="why_choose_description" id="why_choose_description" required>{{ get_option('why_choose_description', 'Professional support, dependable connectivity, and solutions tailored for homes, businesses, and remote locations in Kenya.') }}</textarea>
                                     @if ($errors->has('why_choose_description'))
                                         <span class="text-danger">{{ $errors->first('why_choose_description') }}</span>
                                     @endif
                                 </div>
 
-
-                                <!-- Products Section Title -->
-                                <div class="form-group">
+                                <div class="editor-field">
                                     <label for="products_section_title">Products Section Title</label>
-                                    <input type="text" class="form-control" name="products_section_title" value="{{ get_option('products_section_title', 'Our Stationery Collection') }}" id="products_section_title" required>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="products_section_title"
+                                        id="products_section_title"
+                                        value="{{ get_option('products_section_title', 'Hot-Selling Products') }}"
+                                        required
+                                    >
                                     @if ($errors->has('products_section_title'))
                                         <span class="text-danger">{{ $errors->first('products_section_title') }}</span>
                                     @endif
                                 </div>
+                            </section>
 
-<!-- Home Page Description -->
-<div class="form-group">
-    <label for="home_page_description">Home Page Content</label>
-    <textarea id="home_page_description" name="homepage_description">{{ get_option('homepage_description') }}</textarea>
-</div>
-
-<!-- About Us -->
-<div class="form-group">
-    <label for="about">About Us</label>
-    <textarea id="about" name="about">{{ get_option('about') }}</textarea>
-</div>
-
-<!-- FAQ -->
-<div class="form-group">
-    <label for="faq">FAQ</label>
-    <textarea id="faq" name="faq">{{ get_option('faq') }}</textarea>
-</div>
-
-
-<!-- FAQ -->
-<div class="form-group">
-    <label for="terms">Terms</label>
-    <textarea id="terms" name="terms">{{ get_option('terms') }}</textarea>
-</div>
-
-<!-- Include TinyMCE -->
-<script src="{{ asset('assets/js/tinymce/tinymce.min.js') }}"></script>
-<script type="text/javascript">
-    // Initialize TinyMCE for Home Page Content
-    tinymce.init({
-        selector: "textarea#home_page_description",
-        plugins: "image advcode link lists media table code wordcount fullscreen",
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen",
-        menubar: "file edit view insert format tools table help",
-        height: 400,
-        image_title: true,
-        automatic_uploads: true,
-        promotion: false,
-        branding: false,
-        file_picker_types: 'image',
-        file_picker_callback: function (cb, value, meta) {
-            let input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.onchange = function () {
-                let file = this.files[0];
-                let reader = new FileReader();
-                reader.onload = function () {
-                    let id = 'blobid' + (new Date()).getTime();
-                    let blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    let base64 = reader.result.split(',')[1];
-                    let blobInfo = blobCache.create(id, file, base64);
-                    blobCache.add(blobInfo);
-                    cb(blobInfo.blobUri(), { title: file.name });
-                };
-                reader.readAsDataURL(file);
-            };
-            input.click();
-        },
-    });
-
-    // Initialize TinyMCE for About Us
-    tinymce.init({
-        selector: "textarea#about",
-        plugins: "image advcode link lists media table code wordcount fullscreen",
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen",
-        menubar: "file edit view insert format tools table help",
-        height: 400,
-        image_title: true,
-        automatic_uploads: true,
-        promotion: false,
-        branding: false,
-        file_picker_types: 'image',
-        file_picker_callback: function (cb, value, meta) {
-            let input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.onchange = function () {
-                let file = this.files[0];
-                let reader = new FileReader();
-                reader.onload = function () {
-                    let id = 'blobid' + (new Date()).getTime();
-                    let blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    let base64 = reader.result.split(',')[1];
-                    let blobInfo = blobCache.create(id, file, base64);
-                    blobCache.add(blobInfo);
-                    cb(blobInfo.blobUri(), { title: file.name });
-                };
-                reader.readAsDataURL(file);
-            };
-            input.click();
-        },
-    });
-
-    // Initialize TinyMCE for FAQ
-    tinymce.init({
-        selector: "textarea#faq",
-        plugins: "image advcode link lists media table code wordcount fullscreen",
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen",
-        menubar: "file edit view insert format tools table help",
-        height: 400,
-        image_title: true,
-        automatic_uploads: true,
-        promotion: false,
-        branding: false,
-        file_picker_types: 'image',
-        file_picker_callback: function (cb, value, meta) {
-            let input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.onchange = function () {
-                let file = this.files[0];
-                let reader = new FileReader();
-                reader.onload = function () {
-                    let id = 'blobid' + (new Date()).getTime();
-                    let blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    let base64 = reader.result.split(',')[1];
-                    let blobInfo = blobCache.create(id, file, base64);
-                    blobCache.add(blobInfo);
-                    cb(blobInfo.blobUri(), { title: file.name });
-                };
-                reader.readAsDataURL(file);
-            };
-            input.click();
-        },
-    });
-
-
-
-        // Initialize TinyMCE for FAQ
-    tinymce.init({
-        selector: "textarea#terms",
-        plugins: "image advcode link lists media table code wordcount fullscreen",
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen",
-        menubar: "file edit view insert format tools table help",
-        height: 400,
-        image_title: true,
-        automatic_uploads: true,
-        promotion: false,
-        branding: false,
-        file_picker_types: 'image',
-        file_picker_callback: function (cb, value, meta) {
-            let input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.onchange = function () {
-                let file = this.files[0];
-                let reader = new FileReader();
-                reader.onload = function () {
-                    let id = 'blobid' + (new Date()).getTime();
-                    let blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    let base64 = reader.result.split(',')[1];
-                    let blobInfo = blobCache.create(id, file, base64);
-                    blobCache.add(blobInfo);
-                    cb(blobInfo.blobUri(), { title: file.name });
-                };
-                reader.readAsDataURL(file);
-            };
-            input.click();
-        },
-    });
-</script>
-
-<!-- Shared Styles -->
-<style>
-    textarea {
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
-        width: 100%;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-
-
-                                <!-- Submit button -->
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <section class="editor-section">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>Publishing Notes</h2>
+                                        <p>Use this screen to manage core homepage sections without editing code.</p>
+                                    </div>
                                 </div>
-                            </form>
+
+                                <ul class="editor-checklist">
+                                    <li>Keep the hero title concise and keyword-focused.</li>
+                                    <li>Use the homepage content editor for long-form SEO or marketing sections.</li>
+                                    <li>Review image dimensions before uploading large hero banners.</li>
+                                    <li>Save changes after editing each block to keep the homepage aligned.</li>
+                                </ul>
+                            </section>
+
+                            <section class="editor-section editor-section-wide">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>Home Page Content</h2>
+                                        <p>Manage the main homepage article and supporting long-form text.</p>
+                                    </div>
+                                </div>
+                                <textarea id="home_page_description" class="rich-editor" name="homepage_description">{{ get_option('homepage_description') }}</textarea>
+                            </section>
+
+                            <section class="editor-section editor-section-wide">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>About Us</h2>
+                                        <p>Update the core about section content shown across the site.</p>
+                                    </div>
+                                </div>
+                                <textarea id="about" class="rich-editor" name="about">{{ get_option('about') }}</textarea>
+                            </section>
+
+                            <section class="editor-section editor-section-wide">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>FAQ</h2>
+                                        <p>Maintain the frequently asked questions content and answers.</p>
+                                    </div>
+                                </div>
+                                <textarea id="faq" class="rich-editor" name="faq">{{ get_option('faq') }}</textarea>
+                            </section>
+
+                            <section class="editor-section editor-section-wide">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>Terms</h2>
+                                        <p>Edit the terms and policy copy used across the website.</p>
+                                    </div>
+                                </div>
+                                <textarea id="terms" class="rich-editor" name="terms">{{ get_option('terms') }}</textarea>
+                            </section>
                         </div>
                     </div>
-                    <!-- /.card -->
+
+                    <div class="card-footer homepage-editor-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i> Save Changes
+                        </button>
+                    </div>
                 </div>
-                <!--/.col (left) -->
-            </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+            </form>
+        </div>
     </section>
-    <!-- /.content -->
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .homepage-content-page .content-header {
+        padding-bottom: 16px;
+    }
+
+    .homepage-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .homepage-kicker {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #edf3ff;
+        color: #2f6df6;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .homepage-subtitle {
+        margin: 10px 0 0;
+        color: #7085a2;
+        max-width: 760px;
+        line-height: 1.7;
+    }
+
+    .homepage-header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .homepage-alert {
+        margin-bottom: 18px;
+    }
+
+    .homepage-editor-card .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .homepage-editor-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+        gap: 22px;
+    }
+
+    .editor-section {
+        background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+        border: 1px solid #e2eaf5;
+        border-radius: 24px;
+        padding: 22px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .editor-section-wide {
+        grid-column: 1 / -1;
+    }
+
+    .editor-section-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+    }
+
+    .editor-section-head h2 {
+        margin: 0;
+        color: #132b54;
+        font-size: 1.32rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+    }
+
+    .editor-section-head p {
+        margin: 8px 0 0;
+        color: #7085a2;
+        line-height: 1.65;
+    }
+
+    .editor-field + .editor-field {
+        margin-top: 18px;
+    }
+
+    .editor-field label {
+        display: block;
+        margin-bottom: 10px;
+        color: #173257;
+        font-weight: 600;
+        font-size: 0.98rem;
+    }
+
+    .editor-textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .field-help {
+        display: inline-block;
+        margin-top: 8px;
+        color: #7f90a8;
+        line-height: 1.5;
+    }
+
+    .editor-media-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr);
+        gap: 18px;
+        align-items: stretch;
+        margin-top: 18px;
+    }
+
+    .editor-preview {
+        border: 1px dashed #cdd9eb;
+        border-radius: 22px;
+        background: #f8fbff;
+        min-height: 100%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .editor-preview-label {
+        color: #173257;
+        font-weight: 600;
+        font-size: 0.94rem;
+    }
+
+    .editor-preview-image {
+        width: 100%;
+        min-height: 210px;
+        object-fit: cover;
+        border-radius: 18px;
+        box-shadow: 0 16px 28px rgba(31, 54, 102, 0.12);
+    }
+
+    .editor-preview-empty {
+        min-height: 210px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        color: #8ca0bb;
+        background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
+        padding: 24px;
+        gap: 10px;
+    }
+
+    .editor-preview-empty i {
+        font-size: 2rem;
+        color: #9ab0d0;
+    }
+
+    .editor-checklist {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+    }
+
+    .editor-checklist li {
+        position: relative;
+        padding-left: 18px;
+        color: #5f7494;
+        line-height: 1.7;
+    }
+
+    .editor-checklist li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 11px;
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #2f6df6;
+    }
+
+    .homepage-editor-footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .homepage-content-page .tox-tinymce {
+        border-radius: 22px !important;
+        border-color: #dbe5f3 !important;
+        box-shadow: 0 10px 24px rgba(31, 54, 102, 0.06);
+        overflow: hidden;
+    }
+
+    @media (max-width: 1200px) {
+        .homepage-editor-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .editor-media-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .homepage-header-actions {
+            width: 100%;
+        }
+
+        .homepage-header-actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .editor-section {
+            padding: 18px;
+        }
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script src="{{ asset('assets/js/tinymce/tinymce.min.js') }}"></script>
+<script>
+    (function () {
+        var editorIds = ['home_page_description', 'about', 'faq', 'terms'];
+
+        editorIds.forEach(function (id) {
+            if (!document.getElementById(id)) {
+                return;
+            }
+
+            tinymce.init({
+                selector: 'textarea#' + id,
+                plugins: 'image advcode link lists media table code wordcount fullscreen',
+                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen',
+                menubar: 'file edit view insert format tools table help',
+                height: 420,
+                image_title: true,
+                automatic_uploads: true,
+                promotion: false,
+                branding: false,
+                file_picker_types: 'image',
+                file_picker_callback: function (cb) {
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+                    input.onchange = function () {
+                        var file = this.files[0];
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            var id = 'blobid' + (new Date()).getTime();
+                            var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                            var base64 = reader.result.split(',')[1];
+                            var blobInfo = blobCache.create(id, file, base64);
+                            blobCache.add(blobInfo);
+                            cb(blobInfo.blobUri(), { title: file.name });
+                        };
+                        reader.readAsDataURL(file);
+                    };
+                    input.click();
+                }
+            });
+        });
+    })();
+</script>
+@endpush

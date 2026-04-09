@@ -7,11 +7,14 @@
                 <div>
                     <span class="dashboard-kicker">Admin Overview</span>
                     <h1 class="dashboard-title">Dashboard</h1>
-                    <p class="dashboard-subtitle">View and manage all customer orders</p>
+                    <p class="dashboard-subtitle">View and manage orders, content, users, and homepage updates from one workspace.</p>
                 </div>
                 <div class="dashboard-header-actions">
                     <a href="{{ route('invoices.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> New Invoice
+                    </a>
+                    <a href="{{ route('admin.pages_content') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-file-alt"></i> Homepage Content
                     </a>
                     <a href="{{ url('admin/users') }}" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-users"></i> Manage Users
@@ -139,6 +142,13 @@
                                 <span>
                                     <strong>Add New Invoice</strong>
                                     <small>Generate and send payment requests</small>
+                                </span>
+                            </a>
+                            <a href="{{ route('admin.pages_content') }}" class="dashboard-action-link">
+                                <span class="action-icon"><i class="fas fa-file-alt"></i></span>
+                                <span>
+                                    <strong>Update Homepage</strong>
+                                    <small>Edit hero sections, content blocks, and homepage copy</small>
                                 </span>
                             </a>
                             <a href="{{ url('admin/users') }}" class="dashboard-action-link">
