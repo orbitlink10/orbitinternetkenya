@@ -356,7 +356,15 @@
             display: none;
         }
 
+        .sidebar-backdrop {
+            display: none;
+        }
+
         @media (max-width: 991.98px) {
+            body.sidebar-open {
+                overflow: hidden;
+            }
+
             .admin-mobile-bar {
                 position: fixed;
                 top: 12px;
@@ -402,6 +410,23 @@
 
             body.sidebar-open .main-sidebar {
                 transform: translateX(0);
+            }
+
+            .sidebar-backdrop {
+                position: fixed;
+                inset: 0;
+                z-index: 1035;
+                display: block;
+                background: rgba(16, 28, 54, 0.34);
+                backdrop-filter: blur(3px);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.22s ease;
+            }
+
+            body.sidebar-open .sidebar-backdrop {
+                opacity: 1;
+                pointer-events: auto;
             }
 
             .admin-main {
@@ -461,10 +486,10 @@
     @stack('styles')
     @yield('styles')
 </head>
-<body class="hold-transition sidebar-mini layout-fixed {{ Auth::check() && Auth::user()->is_admin() ? 'admin-skin' : 'account-skin' }}">
+<body class="hold-transition layout-fixed {{ Auth::check() && Auth::user()->is_admin() ? 'admin-skin' : 'account-skin' }}">
     @if(Auth::check())
         <div class="admin-mobile-bar d-lg-none">
-            <button type="button" class="mobile-menu-toggle" data-widget="pushmenu" aria-label="Open menu">
+            <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Open menu">
                 <i class="fas fa-bars"></i>
             </button>
             <a href="{{ Auth::user()->is_admin() ? route('home') : route('account.dashboard') }}" class="mobile-brand">{{ $siteName }}</a>
@@ -489,6 +514,8 @@
                 </nav>
             </div>
         </aside>
+
+        <div class="sidebar-backdrop d-lg-none" data-sidebar-toggle></div>
 
         <main class="admin-main">
             <div class="admin-flash">
@@ -516,7 +543,7 @@
                     <i class="fas fa-file-alt"></i>
                     <span>Homepage</span>
                 </a>
-                <a href="#" data-widget="pushmenu" role="button" aria-label="Open menu">
+                <a href="#" data-sidebar-toggle role="button" aria-label="Open menu">
                     <i class="fas fa-bars"></i>
                     <span>More</span>
                 </a>
@@ -535,7 +562,7 @@
                     <i class="fas fa-wallet"></i>
                     <span>Payments</span>
                 </a>
-                <a href="#" data-widget="pushmenu" role="button" aria-label="Open menu">
+                <a href="#" data-sidebar-toggle role="button" aria-label="Open menu">
                     <i class="fas fa-bars"></i>
                     <span>More</span>
                 </a>
@@ -565,6 +592,33 @@
 
     <script>
         $(function () {
+            const mobileSidebarBreakpoint = 991.98;
+
+            const closeMobileSidebar = function () {
+                $('body').removeClass('sidebar-open');
+            };
+
+            $(document).on('click', '[data-sidebar-toggle]', function (event) {
+                if (window.innerWidth > mobileSidebarBreakpoint) {
+                    return;
+                }
+
+                event.preventDefault();
+                $('body').toggleClass('sidebar-open');
+            });
+
+            $(document).on('click', '.main-sidebar .nav-link', function () {
+                if (window.innerWidth <= mobileSidebarBreakpoint) {
+                    closeMobileSidebar();
+                }
+            });
+
+            $(window).on('resize', function () {
+                if (window.innerWidth > mobileSidebarBreakpoint) {
+                    closeMobileSidebar();
+                }
+            });
+
             $('.select2').select2();
             $('.select2bs4').select2({ theme: 'bootstrap4' });
 
