@@ -34,7 +34,7 @@
     <div class="row align-items-center min-vh-75">
       <div class="col-md-6 text-md-start text-center mb-4 mb-md-0">
         <span class="badge bg-primary bg-opacity-10 text-primary mb-3 rounded-pill px-3 py-2">
-          Welcome to Spacelink Kenya
+          Welcome to OrbitInternet Kenya
         </span>
         <h1 class="display-4 fw-bold text-dark mb-3">
           {!! $heroTitle !!} <span class="text-gradient">Kenya</span>

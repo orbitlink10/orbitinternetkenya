@@ -27,14 +27,13 @@ function get_uploaded_image($path){
     return $response;
 }
 
-
-
-    function get_option($option_key = ''){
+    function get_option($option_key = '', $default = null){
       $get = \App\Models\Option::where('option_key', $option_key)->first();
-      if($get) {
+      if($get && $get->option_value !== null && $get->option_value !== '') {
         return $get->option_value;
       }
-      return $option_key;
+
+      return func_num_args() > 1 ? $default : null;
     }
 
 
