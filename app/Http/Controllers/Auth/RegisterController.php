@@ -59,12 +59,13 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'user_type' => 'buyer',
             'password' => Hash::make($data['password']),
         ]);
     }
 
     protected function redirectTo()
     {
-        return route('home');
+        return route('account.dashboard');
     }
 }
