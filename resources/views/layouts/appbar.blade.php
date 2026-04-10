@@ -55,6 +55,7 @@
 
         html, body {
             min-height: 100%;
+            overflow-x: hidden;
         }
 
         body {
@@ -64,11 +65,13 @@
                 radial-gradient(circle at right center, rgba(84, 125, 255, 0.12), transparent 18%),
                 linear-gradient(180deg, #f6f9ff 0%, #eef4ff 100%);
             color: var(--admin-text);
+            overflow-x: hidden;
         }
 
         .wrapper {
             min-height: 100vh;
             background: transparent;
+            overflow-x: hidden;
         }
 
         .main-sidebar {
@@ -77,7 +80,7 @@
             left: 0;
             bottom: 0;
             width: var(--admin-sidebar-width);
-            background: var(--admin-sidebar);
+            background: linear-gradient(180deg, rgba(248, 251, 255, 0.98) 0%, rgba(238, 244, 255, 0.98) 100%);
             backdrop-filter: blur(18px);
             border-right: 1px solid rgba(219, 229, 243, 0.92);
             box-shadow: 18px 0 42px rgba(31, 54, 102, 0.08);
@@ -205,6 +208,7 @@
             margin-left: var(--admin-sidebar-width);
             padding: 24px;
             min-height: 100vh;
+            min-width: 0;
         }
 
         .admin-flash {
@@ -214,6 +218,7 @@
         .content-wrapper {
             margin-left: 0 !important;
             min-height: auto !important;
+            max-width: 100%;
             background: var(--admin-panel);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(215, 225, 241, 0.92);
@@ -422,6 +427,7 @@
             .admin-main {
                 margin-left: 0;
                 padding: 84px 14px 86px;
+                overflow-x: hidden;
             }
 
             .content-wrapper {
@@ -435,6 +441,12 @@
 
             .content {
                 padding: 0 20px 10px;
+            }
+
+            .content .container-fluid {
+                padding-left: 0;
+                padding-right: 0;
+                overflow-x: hidden;
             }
 
             .bottom-navbar {
