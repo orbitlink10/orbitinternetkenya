@@ -21,9 +21,11 @@ public function dashboard()
     $accountBalance = WalletTransaction::where('user_id', Auth::id())->latest('id')->value('balance') ?? 0;
     $recentOrders = Order::where('user_id', Auth::id())->latest()->take(4)->get();
     $recommendedProducts = Product::query()
+        ->where('product_type', 'product')
         ->where(function ($query) {
             $query->whereNull('is_active')->orWhere('is_active', true);
         })
+        ->orderByRaw("CASE WHEN photo IS NULL OR photo = '' THEN 1 ELSE 0 END")
         ->latest('id')
         ->take(4)
         ->get();

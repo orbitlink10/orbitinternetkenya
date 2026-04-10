@@ -144,27 +144,42 @@
                 <div class="account-product-grid">
                     @foreach($recommendedProducts as $product)
                         @php
-                            $photo = (string) $product->photo;
+                            $photo = trim((string) $product->photo);
                             $photoUrl = null;
 
                             if ($photo !== '') {
-                                if (\Illuminate\Support\Str::startsWith($photo, ['http://', 'https://', '/'])) {
+                                if (\Illuminate\Support\Str::startsWith($photo, ['http://', 'https://'])) {
                                     $photoUrl = $photo;
-                                } elseif (\Illuminate\Support\Str::startsWith($photo, 'storage/')) {
+                                } elseif (\Illuminate\Support\Str::startsWith($photo, ['/images?', 'images?'])) {
+                                    $photoUrl = \Illuminate\Support\Str::startsWith($photo, '/')
+                                        ? $photo
+                                        : url('/' . ltrim($photo, '/'));
+                                } elseif (\Illuminate\Support\Str::startsWith($photo, ['/storage/', 'storage/'])) {
+                                    $photoUrl = route('images', ['path' => ltrim(\Illuminate\Support\Str::after($photo, 'storage/'), '/')]);
+                                } elseif (\Illuminate\Support\Str::startsWith($photo, ['/uploads/', 'uploads/'])) {
+                                    $photoUrl = route('images', ['path' => ltrim($photo, '/')]);
+                                } elseif (\Illuminate\Support\Str::startsWith($photo, ['/assets/', 'assets/', '/lucare/', 'lucare/'])) {
                                     $photoUrl = asset(ltrim($photo, '/'));
+                                } elseif (\Illuminate\Support\Str::startsWith($photo, '/')) {
+                                    $photoUrl = $photo;
                                 } else {
-                                    $photoUrl = asset('storage/' . ltrim($photo, '/'));
+                                    $photoUrl = route('images', ['path' => ltrim($photo, '/')]);
                                 }
                             }
                         @endphp
                         <article class="account-product-card">
-                            <div class="account-product-media">
+                            <div class="account-product-media {{ $photoUrl ? '' : 'is-missing' }}">
+                                <div class="account-product-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <span>Image coming soon</span>
+                                </div>
                                 @if($photoUrl)
-                                    <img src="{{ $photoUrl }}" alt="{{ $product->name }}">
-                                @else
-                                    <div class="account-product-placeholder">
-                                        <i class="fas fa-image"></i>
-                                    </div>
+                                    <img
+                                        src="{{ $photoUrl }}"
+                                        alt="{{ $product->name }}"
+                                        loading="lazy"
+                                        onerror="var media=this.closest('.account-product-media'); if (media) { media.classList.add('is-missing'); } this.remove();"
+                                    >
                                 @endif
                             </div>
                             <div class="account-product-body">
@@ -536,23 +551,46 @@
     }
 
     .account-product-media {
+        position: relative;
         aspect-ratio: 4 / 3;
-        background: #f8fafc;
+        overflow: hidden;
+        background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
     }
 
     .account-product-media img,
     .account-product-placeholder {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
+    }
+
+    .account-product-media img {
+        z-index: 1;
+        display: block;
         object-fit: cover;
+        background: #f8fafc;
+    }
+
+    .account-product-media.is-missing img {
+        display: none;
     }
 
     .account-product-placeholder {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: #94a3b8;
+        gap: 10px;
+        padding: 20px;
+        color: #64748b;
         font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .account-product-placeholder span {
+        font-size: 0.85rem;
+        font-weight: 600;
     }
 
     .account-product-body {
