@@ -6,6 +6,7 @@
     @php
         $rawSiteName = trim((string) get_option('site_name', 'OrbitInternet Kenya'));
         $normalizedSiteName = strtolower($rawSiteName);
+        $isAdminWorkspace = Auth::check() && Auth::user()->is_admin();
         $siteName = (
             $normalizedSiteName === '' ||
             str_contains($normalizedSiteName, 'spacelink') ||
@@ -20,7 +21,7 @@
             $siteDesc = \Illuminate\Support\Str::limit(trim(preg_replace('/\\s+/', ' ', $fallback)), 155, '');
         }
         $pageDesc = trim($__env->yieldContent('meta_description')) ?: $siteDesc;
-        $workspaceLabel = Auth::check() && Auth::user()->is_admin() ? 'Admin Workspace' : 'Customer Workspace';
+        $workspaceLabel = $isAdminWorkspace ? 'Admin Workspace' : 'Customer Workspace';
     @endphp
     <title>{{ $siteName }}</title>
     <meta name="description" content="{{ $pageDesc }}">
@@ -220,8 +221,72 @@
             min-height: 100vh;
         }
 
+        .account-skin .admin-main {
+            margin-left: 0;
+            padding: 24px 28px 32px;
+        }
+
         .admin-flash {
             margin-bottom: 16px;
+        }
+
+        .account-topnav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 4px 2px 14px;
+            margin-bottom: 8px;
+            scrollbar-width: thin;
+        }
+
+        .account-topnav::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .account-topnav::-webkit-scrollbar-thumb {
+            background: rgba(90, 117, 163, 0.22);
+            border-radius: 999px;
+        }
+
+        .account-topnav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: #35527e;
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid rgba(214, 226, 244, 0.95);
+            box-shadow: 0 10px 22px rgba(29, 49, 91, 0.06);
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .account-topnav-link i {
+            color: #2f6df6;
+        }
+
+        .account-topnav-link.active {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2f6df6 100%);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 16px 28px rgba(47, 109, 246, 0.18);
+        }
+
+        .account-topnav-link.active i {
+            color: #ffffff;
+        }
+
+        .account-topnav-logout {
+            margin-left: auto;
+            border: none;
+            cursor: pointer;
+        }
+
+        .account-skin .bottom-navbar a.profile-link {
+            min-width: 70px;
         }
 
         .content-wrapper {
@@ -434,6 +499,10 @@
                 padding: 84px 14px 86px;
             }
 
+            .account-skin .admin-main {
+                padding: 16px 14px 86px;
+            }
+
             .content-wrapper {
                 border-radius: 24px;
                 min-height: auto !important;
@@ -482,50 +551,86 @@
                 font-size: 18px;
             }
         }
+
+        @media (max-width: 767.98px) {
+            .account-topnav {
+                display: none;
+            }
+        }
     </style>
     @stack('styles')
     @yield('styles')
 </head>
-<body class="hold-transition layout-fixed {{ Auth::check() && Auth::user()->is_admin() ? 'admin-skin' : 'account-skin' }}">
-    @if(Auth::check())
+<body class="hold-transition layout-fixed {{ $isAdminWorkspace ? 'admin-skin' : 'account-skin' }}">
+    @if(Auth::check() && $isAdminWorkspace)
         <div class="admin-mobile-bar d-lg-none">
             <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Open menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <a href="{{ Auth::user()->is_admin() ? route('home') : route('account.dashboard') }}" class="mobile-brand">{{ $siteName }}</a>
+            <a href="{{ $isAdminWorkspace ? route('home') : route('account.dashboard') }}" class="mobile-brand">{{ $siteName }}</a>
         </div>
     @endif
 
     <div class="wrapper">
-        <aside class="main-sidebar elevation-4">
-            <div class="sidebar">
-                <div class="sidebar-brand-card">
-                    <a href="{{ Auth::check() && Auth::user()->is_admin() ? route('home') : route('account.dashboard') }}">
-                        <div class="sidebar-brand-title">{{ $siteName }}</div>
-                        <div class="sidebar-brand-subtitle">{{ $workspaceLabel }}</div>
-                        <div class="sidebar-brand-note">Manage content, orders, settings, and dashboard actions from one workspace.</div>
-                    </a>
+        @if($isAdminWorkspace)
+            <aside class="main-sidebar elevation-4">
+                <div class="sidebar">
+                    <div class="sidebar-brand-card">
+                        <a href="{{ $isAdminWorkspace ? route('home') : route('account.dashboard') }}">
+                            <div class="sidebar-brand-title">{{ $siteName }}</div>
+                            <div class="sidebar-brand-subtitle">{{ $workspaceLabel }}</div>
+                            <div class="sidebar-brand-note">Manage content, orders, settings, and dashboard actions from one workspace.</div>
+                        </a>
+                    </div>
+
+                    <nav class="mt-4 sidebar-menu-shell">
+                        <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
+                            @include('layouts.menu_links')
+                        </ul>
+                    </nav>
                 </div>
+            </aside>
 
-                <nav class="mt-4 sidebar-menu-shell">
-                    <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
-                        @include('layouts.menu_links')
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-
-        <div class="sidebar-backdrop d-lg-none" data-sidebar-toggle></div>
+            <div class="sidebar-backdrop d-lg-none" data-sidebar-toggle></div>
+        @endif
 
         <main class="admin-main">
             <div class="admin-flash">
                 @include('flash_msg')
             </div>
 
+            @if(Auth::check() && ! $isAdminWorkspace)
+                <nav class="account-topnav" aria-label="Account navigation">
+                    <a href="{{ route('account.dashboard') }}" class="account-topnav-link {{ request()->routeIs('account.dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ route('account.orders') }}" class="account-topnav-link {{ request()->routeIs('account.orders') ? 'active' : '' }}">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Orders</span>
+                    </a>
+                    <a href="{{ route('account.payments') }}" class="account-topnav-link {{ request()->routeIs('account.payments') ? 'active' : '' }}">
+                        <i class="fas fa-wallet"></i>
+                        <span>Payments</span>
+                    </a>
+                    <a href="{{ route('account.details') }}" class="account-topnav-link {{ request()->routeIs('account.details') ? 'active' : '' }}">
+                        <i class="fas fa-user-edit"></i>
+                        <span>Profile</span>
+                    </a>
+                    <button type="button" class="account-topnav-link account-topnav-logout" onclick="event.preventDefault(); document.getElementById('account-logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </nav>
+                <form id="account-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            @endif
+
             @yield('content')
         </main>
 
-        @if(Auth::check() && Auth::user()->is_admin())
+        @if(Auth::check() && $isAdminWorkspace)
             <div class="bottom-navbar d-md-none">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i>
@@ -562,9 +667,9 @@
                     <i class="fas fa-wallet"></i>
                     <span>Payments</span>
                 </a>
-                <a href="#" data-sidebar-toggle role="button" aria-label="Open menu">
-                    <i class="fas fa-bars"></i>
-                    <span>More</span>
+                <a href="{{ route('account.details') }}" class="profile-link {{ request()->routeIs('account.details') ? 'active' : '' }}">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
                 </a>
             </div>
         @endif
