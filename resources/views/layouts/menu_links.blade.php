@@ -98,6 +98,15 @@
         </a>
     </li>
 
+    <li class="nav-header">Admin Panel</li>
+
+    <li class="nav-item">
+        <a href="{{ route('admin.users') }}" class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}">
+            <span class="nav-icon-wrap"><i class="fas fa-users nav-icon"></i></span>
+            <p>Users</p>
+        </a>
+    </li>
+
     <li class="nav-item">
         <a href="{{ route('admin.pages_content') }}" class="nav-link {{ request()->routeIs('admin.pages_content') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-file-alt nav-icon"></i></span>
@@ -133,6 +142,8 @@
         </a>
     </li>
 
+    <li class="nav-header">Operations</li>
+
     <li class="nav-item">
         <a href="{{ route('medias.index') }}" class="nav-link {{ request()->is('medias*') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-photo-video nav-icon"></i></span>
@@ -146,8 +157,6 @@
             <p>Menus</p>
         </a>
     </li>
-
-    <li class="nav-header">Operations</li>
 
     <li class="nav-item">
         <a href="{{ route('notifications.index') }}" class="nav-link {{ request()->is('notifications*') ? 'active' : '' }}">
@@ -164,13 +173,6 @@
     </li>
 
     <li class="nav-header">Administration</li>
-
-    <li class="nav-item">
-        <a href="{{ route('admin.users') }}" class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-users nav-icon"></i></span>
-            <p>Users</p>
-        </a>
-    </li>
 
     <li class="nav-item">
         <a href="{{ route('admin.settings') }}" class="nav-link {{ request()->is('admin/settings*') ? 'active' : '' }}">
