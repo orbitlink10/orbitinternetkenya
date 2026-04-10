@@ -159,7 +159,7 @@
             margin: 22px 0 12px;
             padding: 0 14px;
             color: #9aa9bf;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 600;
             letter-spacing: 0.24em;
             text-transform: uppercase;
@@ -193,7 +193,7 @@
 
         .nav-sidebar .nav-link p {
             margin: 0;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             line-height: 1.35;
         }
