@@ -80,6 +80,8 @@
             top: 0;
             left: 0;
             bottom: 0;
+            display: flex;
+            flex-direction: column;
             width: var(--admin-sidebar-width);
             background: linear-gradient(180deg, #f4f8ff 0%, #ebf2ff 52%, #e4edff 100%);
             backdrop-filter: blur(18px);
@@ -102,7 +104,9 @@
         }
 
         .sidebar {
+            flex: 1 1 auto;
             height: 100%;
+            min-height: 0;
             overflow-y: auto;
             padding-right: 6px;
             position: relative;
@@ -505,7 +509,7 @@
     @stack('styles')
     @yield('styles')
 </head>
-<body class="hold-transition layout-fixed {{ $isAdminWorkspace ? 'admin-skin' : 'account-skin' }}">
+<body class="hold-transition {{ $isAdminWorkspace ? 'admin-skin' : 'account-skin' }}">
     @if(Auth::check())
         <div class="admin-mobile-bar d-lg-none">
             <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Open menu">
