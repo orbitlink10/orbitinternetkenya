@@ -39,7 +39,7 @@
     <style>
         :root {
             --admin-bg: #eef4ff;
-            --admin-sidebar: rgba(255, 255, 255, 0.78);
+            --admin-sidebar: #eef4ff;
             --admin-panel: rgba(255, 255, 255, 0.82);
             --admin-card: #ffffff;
             --admin-text: #183153;
@@ -80,7 +80,7 @@
             left: 0;
             bottom: 0;
             width: var(--admin-sidebar-width);
-            background: linear-gradient(180deg, rgba(248, 251, 255, 0.98) 0%, rgba(238, 244, 255, 0.98) 100%);
+            background: linear-gradient(180deg, #f4f8ff 0%, #ebf2ff 52%, #e4edff 100%);
             backdrop-filter: blur(18px);
             border-right: 1px solid rgba(219, 229, 243, 0.92);
             box-shadow: 18px 0 42px rgba(31, 54, 102, 0.08);
@@ -89,10 +89,24 @@
             overflow: hidden;
         }
 
+        .main-sidebar::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 16% 12%, rgba(60, 120, 246, 0.16), transparent 22%),
+                radial-gradient(circle at 82% 22%, rgba(88, 146, 255, 0.14), transparent 18%),
+                radial-gradient(circle at 24% 82%, rgba(158, 191, 255, 0.12), transparent 22%);
+            pointer-events: none;
+        }
+
         .sidebar {
             height: 100%;
             overflow-y: auto;
             padding-right: 6px;
+            position: relative;
+            z-index: 1;
+            background: transparent;
         }
 
         .sidebar::-webkit-scrollbar {
@@ -401,6 +415,8 @@
                 transform: translateX(-104%);
                 transition: transform 0.22s ease;
                 padding-top: 18px;
+                background: linear-gradient(180deg, #f6f9ff 0%, #edf3ff 56%, #e6eeff 100%);
+                box-shadow: 24px 0 44px rgba(20, 42, 82, 0.18);
             }
 
             body.sidebar-open .main-sidebar {
