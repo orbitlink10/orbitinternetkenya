@@ -2,6 +2,8 @@
 @php
   $siteName = trim((string) get_option('site_name', 'OrbitInternet Kenya')) ?: 'OrbitInternet Kenya';
   $contactEmail = trim((string) get_option('contact_email'));
+  $accountEntryUrl = Auth::check() ? route('account.dashboard') : url('/login.php');
+  $loginPageUrl = url('/login.php');
 @endphp
 <footer class="bg-dark text-light pt-5">
   <div class="container">
@@ -54,7 +56,7 @@
       <div class="col-md-2">
         <h5 class="fw-bold mb-3">My Account</h5>
         <ul class="list-unstyled">
-          <li class="mb-2"><a href="{{ route('login') }}"       class="text-light link-hover">Sign In</a></li>
+          <li class="mb-2"><a href="{{ $loginPageUrl }}"       class="text-light link-hover">Sign In</a></li>
           <li class="mb-2"><a href="{{ route('cart.view') }}"   class="text-light link-hover">View Cart</a></li>
           <li class="mb-2"><a href="{{ route('account.orders') }}" class="text-light link-hover">Track Order</a></li>
           <li class="mb-2"><a href="{{ route('contacts') }}"       class="text-light link-hover">Help</a></li>
@@ -171,7 +173,7 @@
       </li>
       <!-- My Account Link -->
       <li class="nav-item">
-        <a class="nav-link text-center {{ request()->is('account*') ? 'active' : '' }}" href="{{ route('account.dashboard') }}">
+        <a class="nav-link text-center {{ request()->is('account*') ? 'active' : '' }}" href="{{ $accountEntryUrl }}">
           <i class="fas fa-user-cog fs-4 d-block"></i>
           <span class="d-block small">My Account</span>
         </a>

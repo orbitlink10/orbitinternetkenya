@@ -274,6 +274,8 @@ Route::get('/sitemap-post.xml', fn () => redirect('/sitemap-posts.xml', 301));
 
 Auth::routes();
 
+Route::get('/login.php', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login.php');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/save_tag', [App\Http\Controllers\HomeController::class, 'saveTag'])->name('save-tag');
 Route::post('/save_post', [App\Http\Controllers\HomeController::class, 'savePost'])->name('save-post');

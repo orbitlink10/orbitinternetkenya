@@ -362,7 +362,7 @@
 
                                 <!-- Account Button -->
                                 <div>
-                                    <a href="{{ route('login') }}" class="btn btn-success d-flex align-items-center px-3 py-2 rounded-pill text-white">
+                                    <a href="{{ url('/login.php') }}" class="btn btn-success d-flex align-items-center px-3 py-2 rounded-pill text-white">
                                         <i class="bi bi-person-circle me-2" style="font-size: 20px;"></i> Account
                                     </a>
                                 </div>
