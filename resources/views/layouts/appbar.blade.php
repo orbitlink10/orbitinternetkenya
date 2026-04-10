@@ -226,7 +226,7 @@
 
         .content-wrapper {
             margin-left: 0 !important;
-            min-height: calc(100vh - 48px) !important;
+            min-height: auto !important;
             background: var(--admin-panel);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(215, 225, 241, 0.92);

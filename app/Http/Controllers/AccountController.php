@@ -15,14 +15,24 @@ class AccountController extends Controller
 public function dashboard()
 {
     $ordersCount = Order::where('user_id', Auth::id())->count();
+    $pendingOrdersCount = Order::where('user_id', Auth::id())->where('status', 'pending')->count();
     $wishlistCount = Wishlist::where('user_id', Auth::id())->count();
-    $accountBalance = WalletTransaction::where('user_id', Auth::id())->sum('balance');
-    $recentOrders = Order::where('user_id', Auth::id())->latest()->take(5)->get();
-    $recommendedProducts = Product::take(8)->get(); // Replace with recommendation logic
+    $paymentsCount = Payment::where('user_id', Auth::id())->count();
+    $accountBalance = WalletTransaction::where('user_id', Auth::id())->latest('id')->value('balance') ?? 0;
+    $recentOrders = Order::where('user_id', Auth::id())->latest()->take(4)->get();
+    $recommendedProducts = Product::query()
+        ->where(function ($query) {
+            $query->whereNull('is_active')->orWhere('is_active', true);
+        })
+        ->latest('id')
+        ->take(4)
+        ->get();
 
     return view('account.dashboard', compact(
         'ordersCount',
+        'pendingOrdersCount',
         'wishlistCount',
+        'paymentsCount',
         'accountBalance',
         'recentOrders',
         'recommendedProducts'
