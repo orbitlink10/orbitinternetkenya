@@ -32,9 +32,19 @@
             <p>Profile</p>
         </a>
     </li>
-@else
-    <li class="nav-header">Overview</li>
+    
+    <li class="nav-header">Session</li>
 
+    <li class="nav-item">
+        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <span class="nav-icon-wrap"><i class="fas fa-sign-out-alt nav-icon"></i></span>
+            <p>Logout</p>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </li>
+@else
     <li class="nav-item">
         <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-tachometer-alt nav-icon"></i></span>
@@ -89,29 +99,6 @@
     </li>
 
     <li class="nav-item">
-        <a href="{{ route('notifications.index') }}" class="nav-link {{ request()->is('notifications*') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-bell nav-icon"></i></span>
-            <p>Requests</p>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="{{ route('designs.index') }}" class="nav-link {{ request()->is('designs*') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-drafting-compass nav-icon"></i></span>
-            <p>Designs</p>
-        </a>
-    </li>
-
-    <li class="nav-header">Site Administration</li>
-
-    <li class="nav-item">
-        <a href="{{ route('admin.users') }}" class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-users nav-icon"></i></span>
-            <p>Users</p>
-        </a>
-    </li>
-
-    <li class="nav-item">
         <a href="{{ route('admin.pages_content') }}" class="nav-link {{ request()->routeIs('admin.pages_content') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-file-alt nav-icon"></i></span>
             <p>Homepage Content</p>
@@ -160,31 +147,35 @@
         </a>
     </li>
 
+    <li class="nav-header">Operations</li>
+
+    <li class="nav-item">
+        <a href="{{ route('notifications.index') }}" class="nav-link {{ request()->is('notifications*') ? 'active' : '' }}">
+            <span class="nav-icon-wrap"><i class="fas fa-bell nav-icon"></i></span>
+            <p>Enquiries</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ route('designs.index') }}" class="nav-link {{ request()->is('designs*') ? 'active' : '' }}">
+            <span class="nav-icon-wrap"><i class="fas fa-drafting-compass nav-icon"></i></span>
+            <p>Designs</p>
+        </a>
+    </li>
+
+    <li class="nav-header">Administration</li>
+
+    <li class="nav-item">
+        <a href="{{ route('admin.users') }}" class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}">
+            <span class="nav-icon-wrap"><i class="fas fa-users nav-icon"></i></span>
+            <p>Users</p>
+        </a>
+    </li>
+
     <li class="nav-item">
         <a href="{{ route('admin.settings') }}" class="nav-link {{ request()->is('admin/settings*') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-cogs nav-icon"></i></span>
             <p>Settings</p>
         </a>
     </li>
-
-    <li class="nav-header">Account</li>
-
-    <li class="nav-item">
-        <a href="{{ route('account.details') }}" class="nav-link {{ request()->routeIs('account.details') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-user-edit nav-icon"></i></span>
-            <p>Profile</p>
-        </a>
-    </li>
 @endif
-
-<li class="nav-header">Session</li>
-
-<li class="nav-item">
-    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <span class="nav-icon-wrap"><i class="fas fa-sign-out-alt nav-icon"></i></span>
-        <p>Logout</p>
-    </a>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-</li>

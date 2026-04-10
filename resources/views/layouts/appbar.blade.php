@@ -21,7 +21,6 @@
             $siteDesc = \Illuminate\Support\Str::limit(trim(preg_replace('/\\s+/', ' ', $fallback)), 155, '');
         }
         $pageDesc = trim($__env->yieldContent('meta_description')) ?: $siteDesc;
-        $workspaceLabel = $isAdminWorkspace ? 'Admin Workspace' : 'Customer Workspace';
     @endphp
     <title>{{ $siteName }}</title>
     <meta name="description" content="{{ $pageDesc }}">
@@ -50,7 +49,7 @@
             --admin-accent-deep: #1748b6;
             --admin-accent-soft: #e9f0ff;
             --admin-shadow: 0 28px 60px rgba(31, 54, 102, 0.12);
-            --admin-sidebar-width: 320px;
+            --admin-sidebar-width: 336px;
             --admin-radius: 30px;
         }
 
@@ -83,7 +82,7 @@
             border-right: 1px solid rgba(219, 229, 243, 0.92);
             box-shadow: 18px 0 42px rgba(31, 54, 102, 0.08);
             z-index: 1040;
-            padding: 20px 16px 24px;
+            padding: 18px 16px 22px;
             overflow: hidden;
         }
 
@@ -103,11 +102,12 @@
         }
 
         .sidebar-brand-card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 249, 255, 0.96));
+            background: #ffffff;
             border: 1px solid rgba(218, 228, 243, 0.88);
             border-radius: 28px;
-            padding: 22px 22px 18px;
-            box-shadow: 0 16px 34px rgba(43, 68, 120, 0.1);
+            padding: 18px 22px;
+            box-shadow: 0 14px 28px rgba(43, 68, 120, 0.08);
+            text-align: center;
         }
 
         .sidebar-brand-card a {
@@ -117,30 +117,16 @@
         }
 
         .sidebar-brand-title {
-            font-size: 1.95rem;
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.04em;
-            margin-bottom: 8px;
-        }
-
-        .sidebar-brand-subtitle {
-            font-size: 0.84rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--admin-muted);
+            font-size: 1.7rem;
             font-weight: 600;
-        }
-
-        .sidebar-brand-note {
-            margin-top: 12px;
-            color: #60738f;
-            font-size: 0.92rem;
-            line-height: 1.55;
+            line-height: 1.15;
+            letter-spacing: -0.04em;
+            margin: 0;
         }
 
         .sidebar-menu-shell {
             padding-bottom: 28px;
+            margin-top: 22px;
         }
 
         .nav-sidebar {
@@ -148,24 +134,24 @@
         }
 
         .nav-sidebar .nav-header {
-            margin: 22px 0 8px;
+            margin: 22px 0 12px;
             padding: 0 14px;
             color: #9aa9bf;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 600;
-            letter-spacing: 0.22em;
+            letter-spacing: 0.24em;
             text-transform: uppercase;
         }
 
         .nav-sidebar .nav-item {
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
         .nav-sidebar .nav-link {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 10px 12px;
+            padding: 14px 14px;
             border-radius: 22px;
             color: #35527e;
             transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, color 0.18s ease;
@@ -178,9 +164,9 @@
         }
 
         .nav-sidebar .nav-link.active {
-            background: linear-gradient(180deg, #f7faff 0%, #edf3ff 100%);
-            box-shadow: inset 0 0 0 1px #d8e4fb, 0 12px 24px rgba(47, 109, 246, 0.09);
-            color: #1f4b9e;
+            background: linear-gradient(135deg, #3c78f6 0%, #2f63e0 100%);
+            box-shadow: 0 18px 34px rgba(47, 109, 246, 0.24);
+            color: #ffffff;
         }
 
         .nav-sidebar .nav-link p {
@@ -197,8 +183,8 @@
         }
 
         .nav-icon-wrap {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 16px;
             display: inline-flex;
             align-items: center;
@@ -210,9 +196,9 @@
         }
 
         .nav-sidebar .nav-link.active .nav-icon-wrap {
-            background: linear-gradient(135deg, var(--admin-accent) 0%, var(--admin-accent-deep) 100%);
+            background: rgba(255, 255, 255, 0.16);
             color: #ffffff;
-            box-shadow: 0 12px 20px rgba(47, 109, 246, 0.26);
+            box-shadow: none;
         }
 
         .admin-main {
@@ -221,72 +207,8 @@
             min-height: 100vh;
         }
 
-        .account-skin .admin-main {
-            margin-left: 0;
-            padding: 24px 28px 32px;
-        }
-
         .admin-flash {
             margin-bottom: 16px;
-        }
-
-        .account-topnav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 4px 2px 14px;
-            margin-bottom: 8px;
-            scrollbar-width: thin;
-        }
-
-        .account-topnav::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .account-topnav::-webkit-scrollbar-thumb {
-            background: rgba(90, 117, 163, 0.22);
-            border-radius: 999px;
-        }
-
-        .account-topnav-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            border-radius: 16px;
-            text-decoration: none;
-            color: #35527e;
-            background: rgba(255, 255, 255, 0.86);
-            border: 1px solid rgba(214, 226, 244, 0.95);
-            box-shadow: 0 10px 22px rgba(29, 49, 91, 0.06);
-            white-space: nowrap;
-            font-weight: 600;
-        }
-
-        .account-topnav-link i {
-            color: #2f6df6;
-        }
-
-        .account-topnav-link.active {
-            background: linear-gradient(135deg, #1d4ed8 0%, #2f6df6 100%);
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 16px 28px rgba(47, 109, 246, 0.18);
-        }
-
-        .account-topnav-link.active i {
-            color: #ffffff;
-        }
-
-        .account-topnav-logout {
-            margin-left: auto;
-            border: none;
-            cursor: pointer;
-        }
-
-        .account-skin .bottom-navbar a.profile-link {
-            min-width: 70px;
         }
 
         .content-wrapper {
@@ -469,8 +391,11 @@
             }
 
             .main-sidebar {
+                width: min(336px, calc(100vw - 40px));
+                z-index: 1070;
                 transform: translateX(-104%);
                 transition: transform 0.22s ease;
+                padding-top: 18px;
             }
 
             body.sidebar-open .main-sidebar {
@@ -497,10 +422,6 @@
             .admin-main {
                 margin-left: 0;
                 padding: 84px 14px 86px;
-            }
-
-            .account-skin .admin-main {
-                padding: 16px 14px 86px;
             }
 
             .content-wrapper {
@@ -551,18 +472,12 @@
                 font-size: 18px;
             }
         }
-
-        @media (max-width: 767.98px) {
-            .account-topnav {
-                display: none;
-            }
-        }
     </style>
     @stack('styles')
     @yield('styles')
 </head>
 <body class="hold-transition layout-fixed {{ $isAdminWorkspace ? 'admin-skin' : 'account-skin' }}">
-    @if(Auth::check() && $isAdminWorkspace)
+    @if(Auth::check())
         <div class="admin-mobile-bar d-lg-none">
             <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Open menu">
                 <i class="fas fa-bars"></i>
@@ -572,14 +487,12 @@
     @endif
 
     <div class="wrapper">
-        @if($isAdminWorkspace)
+        @if(Auth::check())
             <aside class="main-sidebar elevation-4">
                 <div class="sidebar">
                     <div class="sidebar-brand-card">
                         <a href="{{ $isAdminWorkspace ? route('home') : route('account.dashboard') }}">
                             <div class="sidebar-brand-title">{{ $siteName }}</div>
-                            <div class="sidebar-brand-subtitle">{{ $workspaceLabel }}</div>
-                            <div class="sidebar-brand-note">Manage content, orders, settings, and dashboard actions from one workspace.</div>
                         </a>
                     </div>
 
@@ -598,34 +511,6 @@
             <div class="admin-flash">
                 @include('flash_msg')
             </div>
-
-            @if(Auth::check() && ! $isAdminWorkspace)
-                <nav class="account-topnav" aria-label="Account navigation">
-                    <a href="{{ route('account.dashboard') }}" class="account-topnav-link {{ request()->routeIs('account.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="{{ route('account.orders') }}" class="account-topnav-link {{ request()->routeIs('account.orders') ? 'active' : '' }}">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span>Orders</span>
-                    </a>
-                    <a href="{{ route('account.payments') }}" class="account-topnav-link {{ request()->routeIs('account.payments') ? 'active' : '' }}">
-                        <i class="fas fa-wallet"></i>
-                        <span>Payments</span>
-                    </a>
-                    <a href="{{ route('account.details') }}" class="account-topnav-link {{ request()->routeIs('account.details') ? 'active' : '' }}">
-                        <i class="fas fa-user-edit"></i>
-                        <span>Profile</span>
-                    </a>
-                    <button type="button" class="account-topnav-link account-topnav-logout" onclick="event.preventDefault(); document.getElementById('account-logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </button>
-                </nav>
-                <form id="account-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            @endif
 
             @yield('content')
         </main>
@@ -667,9 +552,9 @@
                     <i class="fas fa-wallet"></i>
                     <span>Payments</span>
                 </a>
-                <a href="{{ route('account.details') }}" class="profile-link {{ request()->routeIs('account.details') ? 'active' : '' }}">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
+                <a href="#" data-sidebar-toggle role="button" aria-label="Open menu">
+                    <i class="fas fa-bars"></i>
+                    <span>More</span>
                 </a>
             </div>
         @endif
