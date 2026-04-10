@@ -7,6 +7,7 @@
         $rawSiteName = trim((string) get_option('site_name', 'OrbitInternet Kenya'));
         $normalizedSiteName = strtolower($rawSiteName);
         $isAdminWorkspace = Auth::check() && Auth::user()->is_admin();
+        $resetSidebarToTop = request()->routeIs('home') || request()->routeIs('account.dashboard');
         $siteName = (
             $normalizedSiteName === '' ||
             str_contains($normalizedSiteName, 'spacelink') ||
@@ -611,10 +612,24 @@
     <script>
         $(function () {
             const mobileSidebarBreakpoint = 991.98;
+            const shouldResetSidebarToTop = @json($resetSidebarToTop);
+            const $sidebarScroller = $('.main-sidebar .sidebar');
+
+            const resetSidebarPosition = function () {
+                if (!shouldResetSidebarToTop || !$sidebarScroller.length) {
+                    return;
+                }
+
+                $sidebarScroller.scrollTop(0);
+            };
 
             const closeMobileSidebar = function () {
                 $('body').removeClass('sidebar-open');
             };
+
+            resetSidebarPosition();
+            $(window).on('load pageshow', resetSidebarPosition);
+            setTimeout(resetSidebarPosition, 60);
 
             $(document).on('click', '[data-sidebar-toggle]', function (event) {
                 if (window.innerWidth > mobileSidebarBreakpoint) {
@@ -623,6 +638,10 @@
 
                 event.preventDefault();
                 $('body').toggleClass('sidebar-open');
+
+                if ($('body').hasClass('sidebar-open')) {
+                    resetSidebarPosition();
+                }
             });
 
             $(document).on('click', '.main-sidebar .nav-link', function () {
