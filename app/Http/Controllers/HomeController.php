@@ -29,6 +29,7 @@ use App\Services\MpesaService;
 use Illuminate\Support\Facades\Log;
 use App\Models\ActivityLog; // Make sure this is the correct path
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 
 class HomeController extends Controller
@@ -53,17 +54,37 @@ class HomeController extends Controller
 
 public function index()
 {
-    $orders = Order::orderBy('id', 'desc')->get();
-    $users = User::orderBy('id', 'desc')->get();
-    $invoices = Invoice::orderBy('id', 'desc')->get();
-    $enquiries = Notification::orderBy('id', 'desc')->get();
+    $orders = Schema::hasTable('orders')
+        ? Order::orderBy('id', 'desc')->get()
+        : collect();
+    $users = Schema::hasTable('users')
+        ? User::orderBy('id', 'desc')->get()
+        : collect();
+    $invoices = Schema::hasTable('invoices')
+        ? Invoice::orderBy('id', 'desc')->get()
+        : collect();
+    $enquiries = Schema::hasTable('engquiries')
+        ? Contact::orderBy('id', 'desc')->get()
+        : (Schema::hasTable('notifications')
+            ? Notification::orderBy('id', 'desc')->get()
+            : collect());
 
     // Additional Metrics
-    $totalRevenue = Order::whereStatus('paid')->sum('total_amount');
-    $recentOrders = Order::whereStatus('paid')->where('created_at', '>=', now()->subDays(7))->count();
-    $newUsers = User::where('created_at', '>=', now()->subDays(30))->count();
-    $recentUsers = User::latest()->limit(5)->get();
- $recentActivities = ActivityLog::latest()->limit(5)->get(); 
+    $totalRevenue = Schema::hasTable('orders')
+        ? Order::where('status', 'paid')->sum('total_amount')
+        : 0;
+    $recentOrders = Schema::hasTable('orders')
+        ? Order::where('status', 'paid')->where('created_at', '>=', now()->subDays(7))->count()
+        : 0;
+    $newUsers = Schema::hasTable('users')
+        ? User::where('created_at', '>=', now()->subDays(30))->count()
+        : 0;
+    $recentUsers = Schema::hasTable('users')
+        ? User::latest()->limit(5)->get()
+        : collect();
+    $recentActivities = Schema::hasTable('activity_logs')
+        ? ActivityLog::latest()->limit(5)->get()
+        : collect();
 
     if (Auth::user()->is_admin()) {
         return view('admin.dashboard', compact(

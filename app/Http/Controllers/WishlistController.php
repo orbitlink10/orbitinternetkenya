@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Wishlist;
 use App\Models\Product; // Assuming products are stored in this model
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class WishlistController extends Controller
 {
@@ -15,7 +16,9 @@ class WishlistController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $wishlistItems = Wishlist::where('user_id', $user->id)->with('product')->get();
+        $wishlistItems = Schema::hasTable('wishlists')
+            ? Wishlist::where('user_id', $user->id)->with('product')->get()
+            : collect();
 
         return view('wishlist.index', compact('wishlistItems'));
     }
@@ -25,7 +28,9 @@ class WishlistController extends Controller
      */
     public function store($id)
     {
-
+        if (! Schema::hasTable('wishlists')) {
+            return redirect()->back()->with('error', 'Wishlist is not available until the local database setup is completed.');
+        }
         $user = Auth::user();
 
         // Check if the item is already in the wishlist
@@ -51,6 +56,9 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
+        if (! Schema::hasTable('wishlists')) {
+            return redirect()->back()->with('error', 'Wishlist is not available until the local database setup is completed.');
+        }
         $user = Auth::user();
 
         $wishlistItem = Wishlist::where('id', $id)

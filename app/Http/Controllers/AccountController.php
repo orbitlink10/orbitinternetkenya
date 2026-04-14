@@ -3,8 +3,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Order;
-use App\Models\Address;
 use App\Models\Payment;
 use App\Models\Wishlist;
 use App\Models\WalletTransaction;
@@ -14,21 +15,38 @@ class AccountController extends Controller
 {
 public function dashboard()
 {
-    $ordersCount = Order::where('user_id', Auth::id())->count();
-    $pendingOrdersCount = Order::where('user_id', Auth::id())->where('status', 'pending')->count();
-    $wishlistCount = Wishlist::where('user_id', Auth::id())->count();
-    $paymentsCount = Payment::where('user_id', Auth::id())->count();
-    $accountBalance = WalletTransaction::where('user_id', Auth::id())->latest('id')->value('balance') ?? 0;
-    $recentOrders = Order::where('user_id', Auth::id())->latest()->take(4)->get();
-    $recommendedProducts = Product::query()
-        ->where('product_type', 'product')
-        ->where(function ($query) {
-            $query->whereNull('is_active')->orWhere('is_active', true);
-        })
-        ->orderByRaw("CASE WHEN photo IS NULL OR photo = '' THEN 1 ELSE 0 END")
-        ->latest('id')
-        ->take(4)
-        ->get();
+    $userId = Auth::id();
+    $ordersQuery = Schema::hasTable('orders')
+        ? Order::query()->where('user_id', $userId)
+        : null;
+
+    $ordersCount = $ordersQuery ? (clone $ordersQuery)->count() : 0;
+    $pendingOrdersCount = $ordersQuery
+        ? (clone $ordersQuery)->where('status', 'pending')->count()
+        : 0;
+    $wishlistCount = Schema::hasTable('wishlists')
+        ? Wishlist::where('user_id', $userId)->count()
+        : 0;
+    $paymentsCount = Schema::hasTable('payments')
+        ? Payment::where('user_id', $userId)->count()
+        : 0;
+    $accountBalance = Schema::hasTable('wallet_transactions')
+        ? (WalletTransaction::where('user_id', $userId)->latest('id')->value('balance') ?? 0)
+        : 0;
+    $recentOrders = $ordersQuery
+        ? (clone $ordersQuery)->latest()->take(4)->get()
+        : collect();
+    $recommendedProducts = Schema::hasTable('products')
+        ? Product::query()
+            ->where('product_type', 'product')
+            ->where(function ($query) {
+                $query->whereNull('is_active')->orWhere('is_active', true);
+            })
+            ->orderByRaw("CASE WHEN photo IS NULL OR photo = '' THEN 1 ELSE 0 END")
+            ->latest('id')
+            ->take(4)
+            ->get()
+        : collect();
 
     return view('account.dashboard', compact(
         'ordersCount',
@@ -44,12 +62,16 @@ public function dashboard()
 
     public function orders()
     {
-        $orders = Order::where('user_id', Auth::id())->get();
+        $orders = Schema::hasTable('orders')
+            ? Order::where('user_id', Auth::id())->get()
+            : collect();
         return view('account.orders', compact('orders'));
     }
     public function payments()
     {
-        $payments = Payment::where('user_id', Auth::id())->get();
+        $payments = Schema::hasTable('payments')
+            ? Payment::where('user_id', Auth::id())->get()
+            : collect();
         return view('account.payments', compact('payments'));
     }
 
@@ -70,7 +92,9 @@ public function dashboard()
 
     public function addresses()
     {
-        $addresses = Address::where('user_id', Auth::id())->get();
+        $addresses = Schema::hasTable('addresses')
+            ? DB::table('addresses')->where('user_id', Auth::id())->get()
+            : collect();
         return view('account.addresses', compact('addresses'));
     }
 

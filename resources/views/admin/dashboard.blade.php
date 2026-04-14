@@ -73,7 +73,7 @@
                             <span class="stat-label">Enquiries</span>
                         </div>
                         <div class="stat-value">{{ $enquiries->count() }}</div>
-                        <a href="{{ route('notifications.index') }}" class="stat-link">View enquiries <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('enquiries') }}" class="stat-link">View enquiries <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
