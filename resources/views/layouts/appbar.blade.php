@@ -515,7 +515,7 @@
             <button type="button" class="mobile-menu-toggle" data-sidebar-toggle aria-label="Open menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <a href="{{ $isAdminWorkspace ? route('home') : route('account.dashboard') }}" class="mobile-brand">{{ $siteName }}</a>
+            <a href="{{ url('/') }}" class="mobile-brand">{{ $siteName }}</a>
         </div>
     @endif
 
@@ -524,7 +524,7 @@
             <aside class="main-sidebar elevation-4">
                 <div class="sidebar">
                     <div class="sidebar-brand-card">
-                        <a href="{{ $isAdminWorkspace ? route('home') : route('account.dashboard') }}">
+                        <a href="{{ url('/') }}">
                             <div class="sidebar-brand-title">{{ $siteName }}</div>
                         </a>
                     </div>
