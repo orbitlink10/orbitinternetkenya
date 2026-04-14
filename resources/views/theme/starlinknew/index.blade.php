@@ -3,8 +3,18 @@
 {{-- Page Title & Meta --}}
 
 @php
-  $pageTitle       = 'Amazon LEO Internet Kenya | Official Reseller';
-  $pageDescription = 'Amazon LEO Internet Kenya installation experts delivering strong, low-latency satellite internet for homes and businesses, including remote areas nationwide.';
+  $pageTitle = trim(strip_tags((string) get_option(
+      'hero_header_title',
+      'Starlink Kenya | High-Speed Satellite Internet Across Kenya'
+  )));
+  $pageDescription = \Illuminate\Support\Str::limit(
+      \Illuminate\Support\Str::squish(strip_tags((string) get_option(
+          'hero_header_description',
+          'OrbitInternet Kenya supplies Starlink hardware, professional installation, and local support for homes, businesses, schools, lodges, and remote sites across Kenya.'
+      ))),
+      155,
+      ''
+  );
 @endphp
 @section('title', $pageTitle)
 @section('meta_description', $pageDescription)
@@ -18,17 +28,28 @@
 
 @section('main')
 @php
+  $siteBrand = trim((string) get_option('site_name', 'OrbitInternet Kenya'));
+  if ($siteBrand === '' || strcasecmp($siteBrand, 'Amazon LEO Internet Kenya') === 0) {
+      $siteBrand = 'OrbitInternet Kenya';
+  }
+
   // Cache dynamic options
   $heroTitle         = Cache::remember('starlinknew_hero_title', 3600, fn() =>
-                          get_option('hero_header_title', 'Amazon LEO Internet Kenya: Reliable Satellite Internet')
+                          get_option('hero_header_title', 'Starlink Kenya | High-Speed Satellite Internet Across Kenya')
                        );
   $heroDesc          = Cache::remember('starlinknew_hero_desc', 3600, fn() =>
-                          get_option('hero_header_description', 'Purchase genuine Starlink kits with certified Kenyan installers. Fast delivery, expert setup, and local support for homes and businesses.')
+                          get_option('hero_header_description', 'OrbitInternet Kenya supplies Starlink hardware, professional installation, and local support for homes, businesses, schools, lodges, and remote sites across Kenya.')
                        );
   $heroImage         = Cache::remember('starlinknew_hero_img', 3600, fn() =>
                           get_option('hero_image', asset('assets/img/spacelink-hero.jpg'))
                        );
   $heroTitleHasKenya = stripos(strip_tags($heroTitle), 'kenya') !== false;
+  $productsSectionTitle = trim((string) get_option('products_section_title', 'Hot-Selling Products')) ?: 'Hot-Selling Products';
+  $whyChooseTitle = trim((string) get_option('why_choose_title', 'Why Starlink Kenya Is Ideal for You')) ?: 'Why Starlink Kenya Is Ideal for You';
+  $whyChooseDescription = trim(strip_tags((string) get_option(
+      'why_choose_description',
+      'Starlink gives homes and businesses across Kenya reliable internet in places where fibre and fixed wireless are limited. OrbitInternet Kenya helps with hardware supply, installation, networking, and support.'
+  )));
   $cachedProducts    = Cache::remember('starlink_products',    3600, fn() => $products);
   $cachedMedias2     = Cache::remember('starlink_medias2',     3600, fn() => $medias2);
   $cachedTestimonials= Cache::remember('starlink_testimonials',3600, fn() => $testimonials);
@@ -51,7 +72,7 @@
     <div class="row align-items-center min-vh-75">
       <div class="col-md-6 text-md-start text-center mb-4 mb-md-0">
         <span class="badge bg-primary bg-opacity-10 text-primary mb-3 rounded-pill px-3 py-2">
-          Welcome to Amazon LEO Internet Kenya
+          Welcome to {{ $siteBrand }}
         </span>
         <h1 class="display-4 fw-bolder text-dark mb-3 home-hero-title">
           {!! $heroTitle !!}
@@ -74,7 +95,7 @@
         </div>
       </div>
       <div class="col-md-6 text-center">
-        <img src="{{ $heroImage }}" alt="Amazon LEO Internet Kenya Hero"
+        <img src="{{ $heroImage }}" alt="{{ $siteBrand }} hero"
              class="img-fluid rounded-4 shadow floating"
              loading="lazy"
              fetchpriority="high"
@@ -89,7 +110,7 @@
   <div class="container">
     <div class="row mb-5">
       <div class="col-lg-7 text-center text-lg-start">
-        <h2 class="fw-bold mb-3">Our <span class="text-gradient">Amazon LEO Internet Kenya Kits</span></h2>
+        <h2 class="fw-bold mb-3">{{ $productsSectionTitle }}</h2>
         <p class="text-muted">Explore our genuine Starlink hardware and accessories.</p>
       </div>
     </div>
@@ -268,9 +289,9 @@
   <div class="container">
     <div class="row align-items-center gy-5">
       <div class="col-lg-6">
-        <h2 class="fw-bold mb-4">Discover <span class="text-gradient">Amazon LEO Internet Kenya</span></h2>
+        <h2 class="fw-bold mb-4">Discover <span class="text-gradient">Starlink Internet in Kenya</span></h2>
         <p class="lead text-muted mb-4">
-          Cutting-edge Amazon LEO Internet Kenya satellite internet with local expertise-reliable, low-latency connectivity across all of Kenya.
+          Fast, low-latency satellite internet for homes, businesses, schools, camps, farms, and remote project sites across Kenya.
         </p>
         <ul class="list-unstyled">
           <li class="d-flex mb-3"><i class="bi bi-check2 text-primary me-3"></i>Speeds up to 220 Mbps</li>
@@ -282,7 +303,7 @@
       <div class="col-lg-6">
         <div class="ratio ratio-16x9 rounded-4 shadow overflow-hidden">
           <iframe src="https://www.youtube.com/embed/ZBpsEnxmsG4"
-                  title="Amazon LEO Internet Kenya Intro"
+                  title="Starlink Internet Kenya Intro"
                   allowfullscreen
                   loading="lazy"></iframe>
         </div>
@@ -294,15 +315,18 @@
 <!--=== Features ===-->
 <section id="features" class="section-py bg-light">
   <div class="container">
-    <h2 class="text-center fw-bold mb-5">Why Choose <span class="text-gradient">Amazon LEO Internet Kenya</span>?</h2>
+    <h2 class="text-center fw-bold mb-3">{{ $whyChooseTitle }}</h2>
+    <p class="lead text-muted text-center mx-auto mb-5" style="max-width:760px;">
+      {{ $whyChooseDescription }}
+    </p>
     <div class="row g-4">
       @foreach([
-        ['icon'=>'award',       'title'=>'Official Reseller',        'text'=>'Authentic hardware & service'],
-        ['icon'=>'truck',       'title'=>'Local Delivery',           'text'=>'Fast dispatch from Nairobi'],
-        ['icon'=>'tools',       'title'=>'Certified Installation',   'text'=>'Perfect dish alignment'],
-        ['icon'=>'wallet2',     'title'=>'Flexible Payments',        'text'=>'Monthly plans & financing'],
-        ['icon'=>'shield-check','title'=>'Warranty',                 'text'=>'12-month guarantee'],
-        ['icon'=>'headset',     'title'=>'24/7 Support',             'text'=>'Kenya-based team']
+        ['icon'=>'router',      'title'=>'High-Speed Connectivity',  'text'=>'Reliable internet for streaming, work, school, and business operations'],
+        ['icon'=>'geo-alt',     'title'=>'Coverage in Hard-to-Reach Areas', 'text'=>'A practical option where fibre and fixed wireless are unavailable'],
+        ['icon'=>'tools',       'title'=>'Professional Installation', 'text'=>'Dish mounting, alignment, setup, and activation support'],
+        ['icon'=>'wallet2',     'title'=>'Flexible Payments',        'text'=>'Hardware guidance, recurring plans, and local payment support'],
+        ['icon'=>'truck',       'title'=>'Fast Delivery',            'text'=>'Quick kit dispatch and coordinated installation scheduling'],
+        ['icon'=>'headset',     'title'=>'Ongoing Support',          'text'=>'Local help with networking, troubleshooting, and upgrades']
       ] as $item)
         <div class="col-md-6 col-lg-4">
           <div class="card h-100 border-0 shadow-sm text-center p-4">
@@ -323,7 +347,7 @@
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Our Solutions</span>
       <h2 class="fw-bold mb-3">Starlink <span class="text-gradient">Extensions</span></h2>
       <p class="lead text-muted mx-auto" style="max-width:700px;">
-        Scale your Amazon LEO Internet Kenya footprint with official extension kits and network design-ideal for estates, communities, and tough terrain.
+        Extend your Starlink setup with extra networking equipment, larger site coverage, and tailored Wi-Fi design for estates, compounds, lodges, and field operations.
       </p>
     </div>
     <div class="row g-4">
@@ -352,7 +376,7 @@
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Our Work</span>
       <h2 class="fw-bold mb-3">Recent <span class="text-gradient">Installations</span></h2>
       <p class="lead text-muted mx-auto" style="max-width:700px;">
-        See our latest Amazon LEO Internet Kenya setups across the country.
+        See recent Starlink installations completed across Kenya.
       </p>
     </div>
     <div id="installationsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
@@ -432,7 +456,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Our Services</span>
-      <h2 class="fw-bold mb-3">Explore Our <span class="text-gradient">Amazon LEO Internet Kenya</span> Solutions</h2>
+      <h2 class="fw-bold mb-3">Explore Our <span class="text-gradient">Starlink</span> Solutions</h2>
     </div>
     <div class="row g-4">
       @foreach($cachedServices as $service)
@@ -467,8 +491,8 @@
     <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
       <div>
         <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">Latest Guides</span>
-        <h2 class="fw-bold mb-2">Recent <span class="text-gradient">Amazon LEO Internet Kenya</span> Insights</h2>
-        <p class="text-muted mb-0">Browse our latest setup, pricing, and connectivity guides.</p>
+        <h2 class="fw-bold mb-2">Recent <span class="text-gradient">Starlink Kenya</span> Insights</h2>
+        <p class="text-muted mb-0">Browse our latest setup, pricing, equipment, and connectivity guides.</p>
       </div>
       <a href="{{ route('insights') }}" class="btn btn-outline-primary">View All Insights</a>
     </div>
@@ -499,32 +523,35 @@
 </section>
 @endif
 
-<!--=== About Amazon LEO Internet Kenya (static) ===-->
-<section id="about-spacelink" class="section-py bg-white">
+<!--=== About Company ===-->
+<section id="about-company" class="section-py bg-white">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <div class="card border-0 shadow-sm rounded-4">
           <div class="card-body p-5">
-            <h2 class="fw-bold mb-4">About Amazon LEO Internet Kenya</h2>
-            <p>
-              At <strong>Amazon LEO Internet Kenya</strong>, we're on a mission to connect every corner of the country with reliable,
-              high-speed satellite internet. As the authorized provider of genuine <strong>Amazon LEO Internet Kenya</strong> kits,
-              our team combines deep technical expertise with local know-how to deliver end-to-end service-from hardware
-              procurement and delivery to professional on-site installation and ongoing support.
-            </p>
-            <h4 class="mt-4">Our Commitment</h4>
-            <ul class="list-unstyled mb-4">
-              <li class="d-flex mb-2"><i class="bi bi-check2 text-primary me-2"></i>Nationwide Coverage & Local Support</li>
-              <li class="d-flex mb-2"><i class="bi bi-check2 text-primary me-2"></i>Transparent Pricing & No Hidden Fees</li>
-              <li class="d-flex mb-2"><i class="bi bi-check2 text-primary me-2"></i>Satisfaction Warranty & Signal Testing On-Site</li>
-            </ul>
-            <h4 class="mt-4">Get Online, Stay Online</h4>
-            <p>
-              Whether you're in Nairobi's CBD or a remote homestead in Turkana, <strong>Amazon LEO Internet Kenya</strong> brings the
-              power of <strong>Amazon LEO Internet Kenya</strong>-ultra-low latency and gigabit-class speeds-to your doorstep.
-              Ready to transform your connectivity?
-            </p>
+            @php
+              $aboutContent = get_option('about');
+              if ($aboutContent) {
+                  $aboutContent = str_replace(['&amp;amp;', '&amp;nbsp;'], ['&amp;', '&nbsp;'], $aboutContent);
+                  $aboutContent = preg_replace('/[\x{00C2}\x{00A0}]+/u', ' ', $aboutContent);
+                  $aboutContent = preg_replace('/<h1([^>]*)>/i', '<h2$1>', $aboutContent);
+                  $aboutContent = preg_replace('/<\\/h1>/i', '</h2>', $aboutContent);
+              } else {
+                  $aboutContent = '
+                    <h2 class="fw-bold mb-4">Who Is OrbitInternet Kenya?</h2>
+                    <p>OrbitInternet Kenya is a local internet solutions provider focused on Starlink hardware supply, installation, and support across Kenya. We help households, businesses, schools, lodges, farms, and remote project sites get dependable internet where fibre and fixed wireless are limited or unavailable.</p>
+                    <h4 class="mt-4">What We Do</h4>
+                    <ul class="list-unstyled mb-4">
+                      <li class="d-flex mb-2"><i class="bi bi-check2 text-primary me-2"></i>Starlink hardware guidance and delivery</li>
+                      <li class="d-flex mb-2"><i class="bi bi-check2 text-primary me-2"></i>Professional site survey, mounting, and alignment</li>
+                      <li class="d-flex mb-2"><i class="bi bi-check2 text-primary me-2"></i>Wi-Fi networking, support, and upgrade advice</li>
+                    </ul>
+                    <p>Our goal is simple: get you online quickly and keep your connection working reliably with practical local support.</p>
+                  ';
+              }
+            @endphp
+            {!! $aboutContent !!}
             <a href="{{ url('shop') }}" class="btn btn-primary mt-3">Order Your Kit Now</a>
           </div>
         </div>
@@ -586,6 +613,7 @@
                                         // Promote known brand anchors into crawlable internal links.
                                         $label = strtolower(trim(strip_tags($body)));
                                         $internalMap = [
+                                            'orbitinternet kenya' => url('/'),
                                             'spacelink kenya' => url('/'),
                                             'starlink kenya' => url('/'),
                                             'starlite internet kenya' => url('/'),
