@@ -34,6 +34,22 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
+    protected function getOrCreateOption(string $key): Option
+    {
+        $option = Option::where('option_key', $key)->first();
+
+        if ($option) {
+            return $option;
+        }
+
+        $nextId = ((int) DB::table('options')->max('id')) + 1;
+
+        return Option::create([
+            'id' => $nextId,
+            'option_key' => $key,
+        ]);
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -639,7 +655,7 @@ public function index()
         $inputs = Arr::except($request->input(), ['_token']);
         
         foreach ($inputs as $key => $value) {
-            $option = Option::firstOrCreate(['option_key' => $key]);
+            $option = $this->getOrCreateOption($key);
             $option->option_value = $value;
             
             $option->save();
@@ -664,7 +680,7 @@ public function index()
             $filenameToStore = $fileName . '-' . time() . '.' . $Extension;
             $request->photo->storeAs('uploads/images/', $filenameToStore,'public');
 
-            $option               = Option::firstOrCreate(['option_key' => 'favicon']);
+            $option               = $this->getOrCreateOption('favicon');
             $option->option_value = url('/').'/storage/uploads/images/'.$filenameToStore;
             $option->save();
             
@@ -686,7 +702,7 @@ public function index()
             $filenameToStore = $fileName . '-' . time() . '.' . $Extension;
             $request->logo->storeAs('uploads/images/', $filenameToStore,'public');
 
-            $option               = Option::firstOrCreate(['option_key' => 'logo']);
+            $option               = $this->getOrCreateOption('logo');
             $option->option_value = url('/').'/storage/uploads/images/'.$filenameToStore;
             $option->save();
             
@@ -707,7 +723,7 @@ public function index()
             $filenameToStore = $fileName . '-' . time() . '.' . $Extension;
             $request->hero_image->storeAs('uploads/images/', $filenameToStore,'public');
 
-            $option               = Option::firstOrCreate(['option_key' => 'hero_image']);
+            $option               = $this->getOrCreateOption('hero_image');
             $option->option_value = url('/').'/storage/uploads/images/'.$filenameToStore;
             $option->save();
             
