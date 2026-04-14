@@ -219,6 +219,23 @@
 
 @push('styles')
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+    .homepage-content-page {
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .homepage-content-page input,
+    .homepage-content-page textarea,
+    .homepage-content-page button,
+    .homepage-content-page select,
+    .homepage-content-page .btn,
+    .homepage-content-page .form-control,
+    .homepage-content-page .breadcrumb,
+    .homepage-content-page .card-title {
+        font-family: inherit;
+    }
+
     .homepage-content-page .content-header {
         padding-bottom: 16px;
     }
@@ -250,12 +267,23 @@
         color: #7085a2;
         max-width: 760px;
         line-height: 1.7;
+        font-size: 1.05rem;
+        font-weight: 400;
     }
 
     .homepage-header-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+    }
+
+    .homepage-header h1 {
+        color: #132b54;
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -0.045em;
+        margin: 0;
     }
 
     .homepage-alert {
@@ -298,7 +326,7 @@
         margin: 0;
         color: #132b54;
         font-size: 1.32rem;
-        font-weight: 700;
+        font-weight: 800;
         letter-spacing: -0.03em;
     }
 
@@ -316,8 +344,24 @@
         display: block;
         margin-bottom: 10px;
         color: #173257;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 0.98rem;
+    }
+
+    .homepage-content-page .btn {
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+
+    .homepage-content-page .form-control {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #173257;
+    }
+
+    .homepage-content-page .breadcrumb {
+        font-size: 1rem;
+        font-weight: 400;
     }
 
     .editor-textarea {
@@ -420,6 +464,14 @@
         overflow: hidden;
     }
 
+    .homepage-content-page .tox,
+    .homepage-content-page .tox .tox-toolbar,
+    .homepage-content-page .tox .tox-menubar,
+    .homepage-content-page .tox .tox-statusbar,
+    .homepage-content-page .tox .tox-edit-area__iframe {
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+
     @media (max-width: 1200px) {
         .homepage-editor-grid {
             grid-template-columns: 1fr;
@@ -464,6 +516,7 @@
                 toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen',
                 menubar: 'file edit view insert format tools table help',
                 height: 420,
+                content_style: "body { font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; color: #173257; } h1, h2, h3, h4, h5, h6 { font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #132b54; font-weight: 700; letter-spacing: -0.02em; } p, li { margin-bottom: 0.85rem; }",
                 image_title: true,
                 automatic_uploads: true,
                 promotion: false,
