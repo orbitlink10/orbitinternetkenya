@@ -98,6 +98,20 @@
         </a>
     </li>
 
+    <li class="nav-item">
+        <a href="{{ route('notifications.index') }}" class="nav-link {{ request()->is('notifications*') ? 'active' : '' }}">
+            <span class="nav-icon-wrap"><i class="fas fa-bell nav-icon"></i></span>
+            <p>Requests</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ route('designs.index') }}" class="nav-link {{ request()->is('designs*') ? 'active' : '' }}">
+            <span class="nav-icon-wrap"><i class="fas fa-drafting-compass nav-icon"></i></span>
+            <p>Designs</p>
+        </a>
+    </li>
+
     <li class="nav-header">Admin Panel</li>
 
     <li class="nav-item">
@@ -135,14 +149,14 @@
         </a>
     </li>
 
+    <li class="nav-header">Operations</li>
+
     <li class="nav-item">
         <a href="{{ route('testimonials.index') }}" class="nav-link {{ request()->is('testimonials*') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-comment-dots nav-icon"></i></span>
             <p>Testimonials</p>
         </a>
     </li>
-
-    <li class="nav-header">Operations</li>
 
     <li class="nav-item">
         <a href="{{ route('medias.index') }}" class="nav-link {{ request()->is('medias*') ? 'active' : '' }}">
@@ -155,20 +169,6 @@
         <a href="{{ route('menus.index') }}" class="nav-link {{ request()->is('menus*') ? 'active' : '' }}">
             <span class="nav-icon-wrap"><i class="fas fa-bars nav-icon"></i></span>
             <p>Menus</p>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="{{ route('notifications.index') }}" class="nav-link {{ request()->is('notifications*') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-bell nav-icon"></i></span>
-            <p>Enquiries</p>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="{{ route('designs.index') }}" class="nav-link {{ request()->is('designs*') ? 'active' : '' }}">
-            <span class="nav-icon-wrap"><i class="fas fa-drafting-compass nav-icon"></i></span>
-            <p>Designs</p>
         </a>
     </li>
 
