@@ -24,10 +24,6 @@
                 </div>
             </div>
 
-            <ol class="breadcrumb float-sm-right dashboard-breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active">Update Content</li>
-            </ol>
         </div>
     </section>
 
