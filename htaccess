@@ -13,6 +13,8 @@
     # Canonicalize legacy /blog URLs before filesystem checks (covers old WP folder setups).
     RewriteRule ^blog/?$ /insights [R=301,L,NC]
     RewriteRule ^blog/(.+)$ /$1 [R=301,L,NC]
+    RewriteCond %{REQUEST_URI} ^(.*/)index\.php/?(.*)$ [NC]
+    RewriteRule ^index\.php(?:/(.*))?$ %1%2 [R=301,QSA,NC,L]
 
     # Force HTTPS + non-www in production (skip localhost).
     RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1|::1)$ [NC]

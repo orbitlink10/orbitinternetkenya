@@ -23,15 +23,13 @@ class AppServiceProvider extends ServiceProvider
         // Keep generated URLs on the current host/scheme to avoid cross-domain
         // redirects between legacy domains and the active hostname.
         $request = $this->app->bound('request') ? $this->app['request'] : null;
-        $host = parse_url(config('app.url'), PHP_URL_HOST) ?: '';
 
         if ($request) {
-            $host = $request->getHost();
             URL::forceRootUrl($request->getSchemeAndHttpHost());
             URL::forceScheme($request->getScheme());
         }
 
-        if ($this->shouldForceIndexPhp($host)) {
+        if ($this->shouldForceIndexPhp()) {
             URL::formatPathUsing(static function (string $path) {
                 if ($path === '' || $path === '/') {
                     return '/index.php';
@@ -46,17 +44,9 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    protected function shouldForceIndexPhp(string $host): bool
+    protected function shouldForceIndexPhp(): bool
     {
-        $configured = $this->normalizeBoolean(config('app.force_index_php'));
-
-        if ($configured !== null) {
-            return $configured;
-        }
-
-        return ! in_array($host, ['localhost', '127.0.0.1', '::1'], true)
-            && ! str_ends_with($host, '.local')
-            && ! str_ends_with($host, '.test');
+        return $this->normalizeBoolean(config('app.force_index_php')) === true;
     }
 
     protected function normalizeBoolean(mixed $value): ?bool
