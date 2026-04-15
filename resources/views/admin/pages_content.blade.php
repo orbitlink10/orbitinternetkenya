@@ -3,6 +3,35 @@
 @php
     $heroImage = trim((string) get_option('hero_image'));
     $logoImage = trim((string) get_option('logo'));
+    $logoImageWidth = null;
+    $logoImageHeight = null;
+    $logoImageSize = null;
+
+    if ($logoImage !== '') {
+        $logoPath = parse_url($logoImage, PHP_URL_PATH) ?: $logoImage;
+        $logoPath = ltrim($logoPath, '/');
+        $candidateLogoPaths = [base_path($logoPath)];
+
+        if (\Illuminate\Support\Str::startsWith($logoPath, 'storage/')) {
+            $candidateLogoPaths[] = storage_path('app/public/' . substr($logoPath, 8));
+        }
+
+        foreach ($candidateLogoPaths as $candidateLogoPath) {
+            if (!is_file($candidateLogoPath)) {
+                continue;
+            }
+
+            $dimensions = @getimagesize($candidateLogoPath);
+            if (!is_array($dimensions)) {
+                continue;
+            }
+
+            $logoImageWidth = (int) $dimensions[0];
+            $logoImageHeight = (int) $dimensions[1];
+            $logoImageSize = $logoImageWidth . ' x ' . $logoImageHeight . ' px';
+            break;
+        }
+    }
 @endphp
 
 @section('content')
@@ -109,19 +138,29 @@
                                     <div class="editor-field">
                                         <label for="logo">Site Logo</label>
                                         <input type="file" class="form-control" name="logo" id="logo" accept="image/*">
-                                        <small class="field-help">Use a clear PNG, SVG, or WEBP logo. Transparent backgrounds work best.</small>
+                                        <small class="field-help field-help-block">Use a clear PNG, SVG, or WEBP logo. Transparent backgrounds work best.</small>
+                                        <small class="field-help field-help-block">Recommended size: at least 320 x 120 px for a sharper header logo.</small>
+                                        @if($logoImageSize !== null)
+                                            <small class="field-help field-help-block {{ ($logoImageWidth < 320 || $logoImageHeight < 120) ? 'field-help-warning' : '' }}">
+                                                Current file: {{ $logoImageSize }}@if($logoImageWidth < 320 || $logoImageHeight < 120) - this is quite small and may look soft on the site.@endif
+                                            </small>
+                                        @endif
                                     </div>
 
-                                    <div class="editor-preview">
+                                    <div class="editor-preview editor-preview-logo-panel">
                                         <span class="editor-preview-label">Current Logo</span>
-                                        @if($logoImage !== '')
-                                            <img src="{{ $logoImage }}" alt="Current site logo preview" class="editor-preview-image editor-preview-image-logo">
-                                        @else
-                                            <div class="editor-preview-empty editor-preview-empty-compact">
+                                        <div class="editor-logo-preview-stage">
+                                            <img
+                                                src="{{ $logoImage !== '' ? $logoImage : '' }}"
+                                                alt="Current site logo preview"
+                                                id="logo-preview-image"
+                                                class="editor-preview-image editor-preview-image-logo{{ $logoImage === '' ? ' d-none' : '' }}"
+                                            >
+                                            <div class="editor-preview-empty editor-preview-empty-compact{{ $logoImage !== '' ? ' d-none' : '' }}" id="logo-preview-empty">
                                                 <i class="fas fa-signature"></i>
                                                 <span>No logo uploaded yet</span>
                                             </div>
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
                             </section>
@@ -402,6 +441,15 @@
         line-height: 1.5;
     }
 
+    .field-help-block {
+        display: block;
+    }
+
+    .field-help-warning {
+        color: #b25b18;
+        font-weight: 600;
+    }
+
     .editor-media-grid {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr);
@@ -427,6 +475,16 @@
         font-size: 0.94rem;
     }
 
+    .editor-logo-preview-stage {
+        min-height: 240px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
+        padding: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .editor-preview-image {
         width: 100%;
         min-height: 210px;
@@ -436,11 +494,13 @@
     }
 
     .editor-preview-image-logo {
-        min-height: 140px;
-        max-height: 180px;
+        width: min(100%, 360px);
+        min-height: 0;
+        max-height: 220px;
         object-fit: contain;
         background: #ffffff;
-        padding: 18px;
+        padding: 24px;
+        margin: 0 auto;
     }
 
     .editor-preview-empty {
@@ -456,11 +516,12 @@
     }
 
     .editor-preview-empty-compact {
-        min-height: 140px;
+        width: 100%;
+        min-height: 220px;
     }
 
     .editor-media-grid-compact {
-        grid-template-columns: minmax(0, 1fr) minmax(220px, 0.75fr);
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
     }
 
     .editor-preview-empty i {
@@ -546,6 +607,29 @@
 <script>
     (function () {
         var editorIds = ['home_page_description', 'about', 'faq', 'terms'];
+        var logoInput = document.getElementById('logo');
+        var logoPreviewImage = document.getElementById('logo-preview-image');
+        var logoPreviewEmpty = document.getElementById('logo-preview-empty');
+        var activeLogoPreviewUrl = null;
+
+        if (logoInput && logoPreviewImage && logoPreviewEmpty) {
+            logoInput.addEventListener('change', function () {
+                var file = this.files && this.files[0];
+
+                if (!file || (file.type && file.type.indexOf('image/') !== 0)) {
+                    return;
+                }
+
+                if (activeLogoPreviewUrl) {
+                    URL.revokeObjectURL(activeLogoPreviewUrl);
+                }
+
+                activeLogoPreviewUrl = URL.createObjectURL(file);
+                logoPreviewImage.src = activeLogoPreviewUrl;
+                logoPreviewImage.classList.remove('d-none');
+                logoPreviewEmpty.classList.add('d-none');
+            });
+        }
 
         editorIds.forEach(function (id) {
             if (!document.getElementById(id)) {
