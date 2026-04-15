@@ -127,7 +127,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     @foreach(\App\Models\Menu::all() as $menu)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ $menu->url }}">{{ $menu->name }}</a>
+                            <a class="nav-link" href="{{ menu_link_url($menu->url) }}">{{ $menu->name }}</a>
                         </li>
                     @endforeach
 

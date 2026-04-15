@@ -668,10 +668,12 @@ public function index()
 
         if($request->hasFile('photo')) {
 
-            $file_path = normalizeFilePath(storage_path().'/app/public/'.get_option('favicon'));
-
-            if(File::exists($file_path)) {
-                File::delete($file_path); //delete from storage
+            $existingFavicon = normalizeUploadedImagePath((string) get_option('favicon'));
+            if ($existingFavicon) {
+                $file_path = normalizeFilePath(storage_path('app/public/' . $existingFavicon));
+                if(File::exists($file_path)) {
+                    File::delete($file_path); //delete from storage
+                }
             }
 
             $fileNameWithExt = $request->photo->getClientOriginalName();
@@ -690,10 +692,12 @@ public function index()
 
         if($request->hasFile('logo')) {
 
-            $file_path = normalizeFilePath(storage_path().'/app/public/'.get_option('logo'));
-
-            if(File::exists($file_path)) {
-                File::delete($file_path); //delete from storage
+            $existingLogo = normalizeUploadedImagePath((string) get_option('logo'));
+            if ($existingLogo) {
+                $file_path = normalizeFilePath(storage_path('app/public/' . $existingLogo));
+                if(File::exists($file_path)) {
+                    File::delete($file_path); //delete from storage
+                }
             }
 
             $fileNameWithExt = $request->logo->getClientOriginalName();
@@ -711,10 +715,12 @@ public function index()
 
         if($request->hasFile('hero_image')) {
 
-            $file_path = normalizeFilePath(storage_path().'/app/public/'.get_option('hero_image'));
-
-            if(File::exists($file_path)) {
-                File::delete($file_path); //delete from storage
+            $existingHeroImage = normalizeUploadedImagePath((string) get_option('hero_image'));
+            if ($existingHeroImage) {
+                $file_path = normalizeFilePath(storage_path('app/public/' . $existingHeroImage));
+                if(File::exists($file_path)) {
+                    File::delete($file_path); //delete from storage
+                }
             }
 
             $fileNameWithExt = $request->hero_image->getClientOriginalName();

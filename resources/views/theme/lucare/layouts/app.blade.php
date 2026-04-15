@@ -140,7 +140,7 @@
 
                                     @foreach(\App\Models\Menu::all() as $menu)
                                     <li>
-                                        <a href="{{ $menu->url }}">{{ $menu->name }}</a>
+                                        <a href="{{ menu_link_url($menu->url) }}">{{ $menu->name }}</a>
                                     </li>
                                     @endforeach
 
@@ -251,7 +251,7 @@
 
                         @foreach(\App\Models\Menu::all() as $menu)
                         <li class="menu-item-has-children">
-                            <a href="{{ $menu->url }}">{{ $menu->name }}</a>
+                            <a href="{{ menu_link_url($menu->url) }}">{{ $menu->name }}</a>
                         </li>
                         @endforeach
 

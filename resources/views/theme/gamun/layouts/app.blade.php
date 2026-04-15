@@ -242,13 +242,11 @@
                         @foreach(\App\Models\Menu::all() as $menu)
                         @php
                             $currentUrl = url()->current();
-                            $menuUrl = \Illuminate\Support\Str::startsWith($menu->url, ['http://','https://'])
-                                ? $menu->url
-                                : url($menu->url);
+                            $menuUrl = menu_link_url($menu->url);
                             $isActive = rtrim($menuUrl, '/') === rtrim($currentUrl, '/');
                         @endphp
                         <li>
-                            <a href="{{ $menu->url }}" class="{{ $isActive ? 'active' : '' }}">{{ \Illuminate\Support\Str::title($menu->name) }}</a>
+                            <a href="{{ $menuUrl }}" class="{{ $isActive ? 'active' : '' }}">{{ \Illuminate\Support\Str::title($menu->name) }}</a>
                         </li>
                         @endforeach
 
@@ -361,11 +359,11 @@
                         @foreach(\App\Models\Menu::all() as $menu)
                         @php
                             $currentUrl = url()->current();
-                            $menuUrl = \Illuminate\Support\Str::startsWith($menu->url, ['http://','https://']) ? $menu->url : url($menu->url);
+                            $menuUrl = menu_link_url($menu->url);
                             $isActive = rtrim($menuUrl, '/') === rtrim($currentUrl, '/');
                         @endphp
                         <li class="menu-item-has-children">
-                            <a href="{{ $menu->url }}" class="{{ $isActive ? 'active' : '' }}">{{ \Illuminate\Support\Str::title($menu->name) }}</a>
+                            <a href="{{ $menuUrl }}" class="{{ $isActive ? 'active' : '' }}">{{ \Illuminate\Support\Str::title($menu->name) }}</a>
                         </li>
                         @endforeach
 

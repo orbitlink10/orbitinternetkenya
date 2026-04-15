@@ -2,6 +2,7 @@
 
 @php
     $heroImage = trim((string) get_option('hero_image'));
+    $logoImage = trim((string) get_option('logo'));
 @endphp
 
 @section('content')
@@ -90,6 +91,35 @@
                                             <div class="editor-preview-empty">
                                                 <i class="fas fa-image"></i>
                                                 <span>No hero image uploaded yet</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="editor-section">
+                                <div class="editor-section-head">
+                                    <div>
+                                        <h2>Brand Assets</h2>
+                                        <p>Upload the primary site logo used in the header, footer, and SEO metadata.</p>
+                                    </div>
+                                </div>
+
+                                <div class="editor-media-grid editor-media-grid-compact">
+                                    <div class="editor-field">
+                                        <label for="logo">Site Logo</label>
+                                        <input type="file" class="form-control" name="logo" id="logo" accept="image/*">
+                                        <small class="field-help">Use a clear PNG, SVG, or WEBP logo. Transparent backgrounds work best.</small>
+                                    </div>
+
+                                    <div class="editor-preview">
+                                        <span class="editor-preview-label">Current Logo</span>
+                                        @if($logoImage !== '')
+                                            <img src="{{ $logoImage }}" alt="Current site logo preview" class="editor-preview-image editor-preview-image-logo">
+                                        @else
+                                            <div class="editor-preview-empty editor-preview-empty-compact">
+                                                <i class="fas fa-signature"></i>
+                                                <span>No logo uploaded yet</span>
                                             </div>
                                         @endif
                                     </div>
@@ -405,6 +435,14 @@
         box-shadow: 0 16px 28px rgba(31, 54, 102, 0.12);
     }
 
+    .editor-preview-image-logo {
+        min-height: 140px;
+        max-height: 180px;
+        object-fit: contain;
+        background: #ffffff;
+        padding: 18px;
+    }
+
     .editor-preview-empty {
         min-height: 210px;
         border-radius: 18px;
@@ -415,6 +453,14 @@
         background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
         padding: 24px;
         gap: 10px;
+    }
+
+    .editor-preview-empty-compact {
+        min-height: 140px;
+    }
+
+    .editor-media-grid-compact {
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 0.75fr);
     }
 
     .editor-preview-empty i {

@@ -198,7 +198,7 @@
                 <div class="collapse navbar-collapse" id="menuBar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @foreach(\App\Models\Menu::all() as $menu)
-                            <li class="nav-item"><a class="nav-link" href="{{ $menu->url }}">{{ $menu->name }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ menu_link_url($menu->url) }}">{{ $menu->name }}</a></li>
                         @endforeach
                     </ul>
                     <span class="navbar-text d-none d-lg-inline"><i class="fas fa-headset me-1"></i>Need Help? {{ get_option('contact_phone') }}</span>
@@ -285,7 +285,7 @@
                                 <ul>
                                     @foreach(\App\Models\Menu::all() as $menu)
                                         <li>
-                                            <a href="{{ $menu->url }}">{{ $menu->name }}</a>
+                                        <a href="{{ menu_link_url($menu->url) }}">{{ $menu->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -390,7 +390,7 @@
                         <ul class="mobile-menu">
                             @foreach(\App\Models\Menu::all() as $menu)
                                 <li class="menu-item-has-children">
-                                    <a href="{{ $menu->url }}">{{ $menu->name }}</a>
+                                    <a href="{{ menu_link_url($menu->url) }}">{{ $menu->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
