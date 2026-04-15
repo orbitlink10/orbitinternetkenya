@@ -279,10 +279,10 @@
 
     .homepage-header h1 {
         color: #132b54;
-        font-size: clamp(2.4rem, 5vw, 4rem);
-        line-height: 1.05;
+        font-size: 0.875rem;
+        line-height: 1.4;
         font-weight: 900;
-        letter-spacing: -0.045em;
+        letter-spacing: 0;
         margin: 0;
     }
 
