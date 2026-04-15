@@ -72,6 +72,10 @@ Route::get('images', function (Request $request) {
     return get_uploaded_image($request->path);
 })->name('images');
 
+Route::get('storage/{path}', function (string $path) {
+    return get_uploaded_image($path);
+})->where('path', '.*');
+
 
 Route::get('/how-to-order', function () {
    return view('theme.'.get_option('theme').'.how');

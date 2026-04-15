@@ -59,24 +59,28 @@
                                 @if ($pages->count() > 0)
                                 <tbody>
                                     @foreach ($pages as $key => $page)
+                                    @php
+                                        $pageImage = uploaded_image_url(
+                                            $page->photo,
+                                            get_option('hero_image', 'assets/admin/dist/img/default-150x150.png')
+                                        ) ?? asset('assets/admin/dist/img/default-150x150.png');
+                                        $pageImageAlt = trim((string) ($page->alter_text ?: $page->title ?: 'Page image'));
+                                        $pageImageFallback = asset('assets/admin/dist/img/default-150x150.png');
+                                    @endphp
                                     <tr>
                                         <td>
                                             <input type="checkbox" name="ids[]" value="{{ $page->id }}" class="select-item">
                                         </td>
                                         <td>{{ $key + 1 }}</td>
-                                     <td>
-
-
-  @if($page->photo)
-
-             <img class="default-img" src="{{ url('/') }}/storage/{{ $page->photo }}" style="width: 150px;" alt="">
-                     @else
-
-                     <img class="default-img"
-                     src="{{ get_option('hero_image', 'assets/img/default-placeholder.jpg') }}" style="width: 150px;" alt="">
- 
-                     @endif
-                                                </td>
+                                        <td>
+                                            <img
+                                                class="default-img"
+                                                src="{{ $pageImage }}"
+                                                style="width: 150px;"
+                                                alt="{{ $pageImageAlt }}"
+                                                onerror="this.onerror=null;this.src='{{ $pageImageFallback }}';"
+                                            >
+                                        </td>
                                         <td>{{ $page->title }}</td>
                                         <td>{{ $page->alter_text }}</td>
                                         <td>{{ $page->type }}</td>

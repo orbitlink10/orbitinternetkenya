@@ -57,10 +57,23 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($products as $key => $product)
+                                            @php
+                                                $productImage = uploaded_image_url(
+                                                    $product->photo,
+                                                    'assets/admin/dist/img/default-150x150.png'
+                                                ) ?? asset('assets/admin/dist/img/default-150x150.png');
+                                                $productImageFallback = asset('assets/admin/dist/img/default-150x150.png');
+                                            @endphp
                                             <tr>
                                                 <td>{{ $products->firstItem() + $key }}</td>
                                                 <td>
-                                                    <img class="default-img" src="{{ url('/') }}/storage/{{ $product->photo }}" style="width: 150px;" alt="">
+                                                    <img
+                                                        class="default-img"
+                                                        src="{{ $productImage }}"
+                                                        style="width: 150px;"
+                                                        alt="{{ $product->name }}"
+                                                        onerror="this.onerror=null;this.src='{{ $productImageFallback }}';"
+                                                    >
                                                 </td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{{ $product->slug }}</td>
