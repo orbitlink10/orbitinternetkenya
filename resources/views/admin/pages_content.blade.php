@@ -638,7 +638,7 @@
 
             tinymce.init({
                 selector: 'textarea#' + id,
-                plugins: 'image advcode link lists media table code wordcount fullscreen',
+                plugins: 'paste image advcode link lists media table code wordcount fullscreen',
                 toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media | code fullscreen',
                 menubar: 'file edit view insert format tools table help',
                 height: 420,
@@ -647,6 +647,39 @@
                 automatic_uploads: true,
                 promotion: false,
                 branding: false,
+                paste_webkit_styles: 'none',
+                paste_remove_styles_if_webkit: true,
+                paste_preprocess: function (plugin, args) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString('<div>' + args.content + '</div>', 'text/html');
+                    var allowedAttributes = {
+                        a: ['href', 'title', 'target', 'rel'],
+                        img: ['src', 'alt', 'title', 'width', 'height'],
+                        iframe: ['src', 'title', 'width', 'height', 'allow', 'allowfullscreen', 'frameborder'],
+                        td: ['colspan', 'rowspan'],
+                        th: ['colspan', 'rowspan']
+                    };
+                    var blockedTags = ['script', 'style', 'meta', 'link', 'base', 'form', 'input', 'button', 'textarea', 'select', 'option'];
+
+                    doc.body.querySelectorAll('*').forEach(function (element) {
+                        var tagName = element.tagName.toLowerCase();
+
+                        if (blockedTags.indexOf(tagName) !== -1) {
+                            element.remove();
+                            return;
+                        }
+
+                        Array.from(element.attributes).forEach(function (attribute) {
+                            var allowed = allowedAttributes[tagName] || [];
+
+                            if (allowed.indexOf(attribute.name.toLowerCase()) === -1) {
+                                element.removeAttribute(attribute.name);
+                            }
+                        });
+                    });
+
+                    args.content = doc.body.innerHTML;
+                },
                 file_picker_types: 'image',
                 file_picker_callback: function (cb) {
                     var input = document.createElement('input');

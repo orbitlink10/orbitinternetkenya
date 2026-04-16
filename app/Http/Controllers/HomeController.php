@@ -50,7 +50,7 @@ class HomeController extends Controller
         ]);
     }
 
-    protected function normalizeOptionValue(mixed $value): ?string
+    protected function normalizeOptionValue(string $key, mixed $value): ?string
     {
         if ($value === null) {
             return null;
@@ -61,12 +61,115 @@ class HomeController extends Controller
         }
 
         if (is_scalar($value)) {
-            return (string) $value;
+            $normalized = (string) $value;
+
+            if ($this->isRichContentOption($key)) {
+                return $this->sanitizeRichContentHtml($normalized);
+            }
+
+            return $normalized;
         }
 
         $encoded = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         return $encoded === false ? null : $encoded;
+    }
+
+    protected function isRichContentOption(string $key): bool
+    {
+        return in_array($key, ['homepage_description', 'about', 'faq', 'terms'], true);
+    }
+
+    protected function sanitizeRichContentHtml(string $html): string
+    {
+        $html = trim($html);
+
+        if ($html === '' || ! str_contains($html, '<')) {
+            return $html;
+        }
+
+        $previous = libxml_use_internal_errors(true);
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $loaded = $dom->loadHTML('<?xml encoding="utf-8" ?><div>' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+        if (! $loaded || ! $dom->documentElement) {
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous);
+
+            return $html;
+        }
+
+        $this->sanitizeRichContentNode($dom->documentElement);
+
+        $sanitized = '';
+        $children = [];
+
+        foreach ($dom->documentElement->childNodes as $child) {
+            $children[] = $child;
+        }
+
+        foreach ($children as $child) {
+            $sanitized .= $dom->saveHTML($child);
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
+
+        return trim($sanitized);
+    }
+
+    protected function sanitizeRichContentNode(\DOMNode $node): void
+    {
+        $children = [];
+
+        foreach ($node->childNodes as $child) {
+            $children[] = $child;
+        }
+
+        $allowedAttributes = [
+            'a' => ['href', 'title', 'target', 'rel'],
+            'img' => ['src', 'alt', 'title', 'width', 'height'],
+            'iframe' => ['src', 'title', 'width', 'height', 'allow', 'allowfullscreen', 'frameborder'],
+            'td' => ['colspan', 'rowspan'],
+            'th' => ['colspan', 'rowspan'],
+        ];
+
+        $blockedTags = ['script', 'style', 'meta', 'link', 'base', 'form', 'input', 'button', 'textarea', 'select', 'option'];
+
+        foreach ($children as $child) {
+            if (! $child instanceof \DOMElement) {
+                continue;
+            }
+
+            $tag = strtolower($child->tagName);
+
+            if (in_array($tag, $blockedTags, true)) {
+                $child->parentNode?->removeChild($child);
+                continue;
+            }
+
+            $attributeNames = [];
+
+            foreach ($child->attributes as $attribute) {
+                $attributeNames[] = $attribute->name;
+            }
+
+            foreach ($attributeNames as $attributeName) {
+                if (! in_array(strtolower($attributeName), $allowedAttributes[$tag] ?? [], true)) {
+                    $child->removeAttribute($attributeName);
+                }
+            }
+
+            if ($child->hasAttribute('href') && preg_match('/^\s*javascript:/i', $child->getAttribute('href'))) {
+                $child->removeAttribute('href');
+            }
+
+            if ($child->hasAttribute('src') && preg_match('/^\s*javascript:/i', $child->getAttribute('src'))) {
+                $child->removeAttribute('src');
+            }
+
+            $this->sanitizeRichContentNode($child);
+        }
     }
 
     /**
@@ -673,7 +776,7 @@ public function index()
         
         foreach ($inputs as $key => $value) {
             $option = $this->getOrCreateOption($key);
-            $option->option_value = $this->normalizeOptionValue($value);
+            $option->option_value = $this->normalizeOptionValue($key, $value);
             
             $option->save();
         }
