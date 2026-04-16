@@ -50,6 +50,25 @@ class HomeController extends Controller
         ]);
     }
 
+    protected function normalizeOptionValue(mixed $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if (is_bool($value)) {
+            return $value ? '1' : '0';
+        }
+
+        if (is_scalar($value)) {
+            return (string) $value;
+        }
+
+        $encoded = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        return $encoded === false ? null : $encoded;
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -650,13 +669,11 @@ public function index()
     //update options
     public function updateOptions(Request $request)
     {
-
-
         $inputs = Arr::except($request->input(), ['_token']);
         
         foreach ($inputs as $key => $value) {
             $option = $this->getOrCreateOption($key);
-            $option->option_value = $value;
+            $option->option_value = $this->normalizeOptionValue($value);
             
             $option->save();
         }
